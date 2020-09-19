@@ -1,0 +1,11 @@
+<?php
+
+return [
+    'db' => [
+        'host' => '',
+        'name' => '',
+        'user' => '',
+        'password' => '',
+    ],
+    'AppName' => '',
+];
