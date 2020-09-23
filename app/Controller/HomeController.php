@@ -12,4 +12,9 @@ class HomeController extends MainController
             'data' => []
         ]);
     }
+
+    public function aboutAction()
+    {
+        return $this->view->render('about');
+    }
 }

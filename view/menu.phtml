@@ -1,0 +1,28 @@
+<?php include 'layout/header.phtml' ?>
+
+<br>
+<?php foreach ($subcategories as $sub ): ?>
+    <h3><?= $sub->name ?></h3>
+    <div class="card-deck">
+
+    <?php foreach ($products as $product):
+        if($product->subcategory == $sub->id):?>
+
+    <div class="card">
+        <img class="card-img-top" src="..." alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title"><?=  $product->name ?></h5>
+            <p class="card-text"><?=  $product->description ?></p>
+            <p> <?=  $product->price ?> </p>
+        </div>
+        <div class="card-body">
+            <a href="#" class="card-link"><i class="fas fa-cart-plus fa-2x"></i></a>
+        </div>
+    </div>
+
+        <?php endif; ?>
+    <?php endforeach; ?>
+    </div><br>
+<?php endforeach; ?>
+
+<?php include 'layout/footer.phtml' ?>

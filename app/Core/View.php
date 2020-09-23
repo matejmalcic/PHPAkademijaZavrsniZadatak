@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Core;
 
+use App\Model\Product;
+use App\Model\Subcategory;
+
 class View
 {
     public const VIEW_PATH = BP . DIRECTORY_SEPARATOR . 'view';
@@ -33,6 +36,7 @@ class View
     {
         // adds $currentUser variable to all views
         $args['currentUser'] = Auth::getInstance()->getCurrentUser();
+        $args['subcategories']  = Subcategory::getAll();
         return $args;
     }
 }
