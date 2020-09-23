@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-//use App\Core\Auth;
+use App\Core\Auth;
 use App\Core\View;
 
 abstract class MainController
 {
     protected $view;
-    //protected $auth;
+    protected $auth;
 
     public function __construct()
     {
         $this->view = new View();
-        //$this->auth = Auth::getInstance();
+        $this->auth = Auth::getInstance();
     }
 
     protected function isPost(): bool

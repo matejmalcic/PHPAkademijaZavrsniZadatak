@@ -32,7 +32,7 @@ class View
     protected function modifyArgs(array $args): array
     {
         // adds $currentUser variable to all views
-        $args['currentUser'] = 'need AuthClass';//Auth::getInstance()->getCurrentUser();
+        $args['currentUser'] = Auth::getInstance()->getCurrentUser();
         return $args;
     }
 }

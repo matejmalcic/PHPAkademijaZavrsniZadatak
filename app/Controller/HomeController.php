@@ -9,7 +9,7 @@ class HomeController extends MainController
     public function indexAction()
     {
         return $this->view->render('home', [
-            'posts' => [1,2]
+            'data' => []
         ]);
     }
 }
