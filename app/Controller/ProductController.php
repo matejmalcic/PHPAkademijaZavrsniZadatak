@@ -6,11 +6,13 @@ use App\Model\Product;
 
 class ProductController extends MainController
 {
+    private $viewDir = 'private' . DIRECTORY_SEPARATOR . 'menu' . DIRECTORY_SEPARATOR;
+
         public function menuAction()
         {
-            $products = Product::getAll();
-            return $this->view->render('menu',[
-                'products' => $products
+            $data = Product::getAll();
+            return $this->view->render($this->viewDir . 'index',[
+                'data' => $data
             ]);
         }
 }

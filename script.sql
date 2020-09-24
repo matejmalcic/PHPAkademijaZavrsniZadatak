@@ -23,6 +23,7 @@ CREATE TABLE subcategory (
 CREATE TABLE product (
      id 		    INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
      name 		    VARCHAR(255) NOT NULL,
+     image 		    VARCHAR(255),
      description    TEXT,
      category  	    VARCHAR(10) NOT NULL,
      subcategory    INT NOT NULL,
@@ -59,7 +60,7 @@ CREATE TABLE product_cart (
 ### TRIGGER ###
 # 1. Create cart for user after registration
 CREATE TRIGGER new_user
-    AFTER INSERT ON user
+    AFTER UPDATE ON user
     FOR EACH ROW
     INSERT INTO cart(sessionId) value (new.sessionId);
 
@@ -133,3 +134,8 @@ INSERT INTO product (name, category, subcategory, price) VALUES
 ('Biskvit', 'eat', 12, 5.99),
 ('Madarone', 'eat', 12, 5.99),
 ('Creampie', 'eat', 12, 5.99);
+
+INSERT INTO product_cart (cartId, productId) VALUES
+(1,2), (1,5), (1,6),
+(1,31), (1,10), (1,12),
+(1,17), (1,23), (1,24);

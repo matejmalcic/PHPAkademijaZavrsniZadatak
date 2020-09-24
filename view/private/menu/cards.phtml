@@ -1,0 +1,10 @@
+<div class="row">
+    <?php
+    foreach ($data as $product){
+        if($product->subcategory === $sub->id){
+            include 'card.phtml';
+        }
+    }
+    ?>
+</div>
+<br>

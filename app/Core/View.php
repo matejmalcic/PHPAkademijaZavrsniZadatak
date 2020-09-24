@@ -1,42 +1,33 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Core;
 
-use App\Model\Product;
 use App\Model\Subcategory;
 
 class View
 {
-    public const VIEW_PATH = BP . DIRECTORY_SEPARATOR . 'view';
+    private $layout;
 
-    public function render(string $template, array $args = []): string
+    public function __construct($layout = "layout")
     {
-        $templateFileName = $this->getTemplateFileName($template);
+        $this->layout = basename($layout);
+    }
 
+    public function render($name, $args = [])
+    {
         ob_start();
-        try {
-            extract($this->modifyArgs($args), EXTR_SKIP);
-            include $templateFileName;
-        } catch (\Exception $e) {
-            ob_end_clean();
-            throw $e;
+        $currentUser = Auth::getInstance()->getCurrentUser();
+        $subCategories = Subcategory::getAll();
+        extract($args);
+        include BP . DIRECTORY_SEPARATOR . "view/$name.phtml";
+        $content = ob_get_clean();
+
+        if ($this->layout) {
+            include BP . DIRECTORY_SEPARATOR . "view/{$this->layout}.phtml";
+        } else {
+            echo $content;
         }
-
-        return ob_get_clean() ?: '';
-    }
-
-    protected function getTemplateFileName(string $template): string
-    {
-        return self::VIEW_PATH . DIRECTORY_SEPARATOR . $template . '.phtml';
-    }
-
-    protected function modifyArgs(array $args): array
-    {
-        // adds $currentUser variable to all views
-        $args['currentUser'] = Auth::getInstance()->getCurrentUser();
-        $args['subcategories']  = Subcategory::getAll();
-        return $args;
+        return $this;
     }
 }
+

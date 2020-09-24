@@ -36,6 +36,7 @@ class Auth
     {
         if ($user->getId()) {
             $_SESSION['user_id'] = $user->getId();
+            $user->setSessionId();
             $this->currentUser = $user;
         }
     }

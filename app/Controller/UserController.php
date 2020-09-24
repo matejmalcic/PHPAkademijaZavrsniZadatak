@@ -87,6 +87,7 @@ class UserController extends MainController
             return;
         }
 
+
         $this->auth->login($user);
         header('Location: /');
     }
