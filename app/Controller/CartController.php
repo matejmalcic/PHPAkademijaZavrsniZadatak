@@ -8,11 +8,17 @@ use App\Model\Cart;
 class CartController extends MainController
 {
     private $viewDir = 'private' . DIRECTORY_SEPARATOR . 'cart' . DIRECTORY_SEPARATOR;
+    private $cartId;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->cartId = Cart::getOne('sessionId', session_id())->id;
+    }
 
     public function cartAction()
     {
-        $cartId = Cart::getOne('sessionId', session_id());
-        $data = ProductCart::getProducts( $cartId->id);
+        $data = ProductCart::getProducts($this->cartId);
         return $this->view->render($this->viewDir . 'index',[
             'data' => $data
         ]);
