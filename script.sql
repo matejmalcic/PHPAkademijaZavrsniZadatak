@@ -7,7 +7,6 @@ CREATE TABLE user (
     id          INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     first_name  VARCHAR(50) NOT NULL,
     last_name   VARCHAR(50) NOT NULL,
-    username    VARCHAR(50) NOT NULL,
     email       VARCHAR(100) NOT NULL,
     password    CHAR(60) NOT NULL,
     status      VARCHAR(15) NOT NULL DEFAULT 'Guest',
@@ -33,15 +32,17 @@ CREATE TABLE product (
 
 CREATE TABLE cart (
       id 			INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-      sessionId		VARCHAR(255),
-      price			DECIMAL(10,2) DEFAULT 0.00
+      userId		INT NOT NULL,
+      sessionId		VARCHAR(255) NOT NULL UNIQUE,
+      price			DECIMAL(10,2) DEFAULT 0.00,
+      FOREIGN KEY (userId) REFERENCES user(id) ON DELETE CASCADE
       #ordered       tinyint default 0
 );
 
 create table orders (
     id 		    INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     user 	    INT NOT NULL,
-    cart	    INT NOT NULL,
+    cart	    INT NOT NULL UNIQUE,
     time        DATETIME DEFAULT now(),
     status      TINYINT(2) DEFAULT 0,
     FOREIGN KEY (user) REFERENCES user(id) ON DELETE CASCADE,
@@ -62,7 +63,7 @@ CREATE TABLE product_cart (
 CREATE TRIGGER new_user
     AFTER UPDATE ON user
     FOR EACH ROW
-    INSERT INTO cart(sessionId) value (new.sessionId);
+    INSERT INTO cart(sessionId, userId) value (new.sessionId, old.id);
 
 # 2. Calculate new price for cart after adding new product into it (price*amount)
 CREATE TRIGGER calculate_price

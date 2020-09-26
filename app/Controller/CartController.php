@@ -20,7 +20,8 @@ class CartController extends MainController
     {
         $data = ProductCart::getProducts($this->cartId);
         return $this->view->render($this->viewDir . 'index',[
-            'data' => $data
+            'data' => $data,
+            'cartId' => $this->cartId
         ]);
     }
 }

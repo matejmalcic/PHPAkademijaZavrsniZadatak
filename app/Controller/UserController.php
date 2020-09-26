@@ -113,4 +113,9 @@ class UserController extends MainController
 
         header('Location: /');
     }
+
+    public function profileAction()
+    {
+        $this->view->render('profile');
+    }
 }

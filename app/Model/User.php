@@ -15,7 +15,7 @@ class User extends AbstractModel
         return $this->__get('password');
     }
 
-    public function setSessionId()
+    public static function setSessionId()
     {
         $sessionId = session_id();
         $sql = "UPDATE user SET sessionId = :sessionId WHERE id = :userId";

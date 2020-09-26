@@ -1,0 +1,33 @@
+<tr>
+    <td title="Order Number"><?= $orderRow->id ?></td>
+    <td title="Order time"><?= $orderRow->time?></td>
+    <td title="Price"><?= 'asf '?></td>
+    <td title="Status"><?= $orderRow->status ?></td>
+</tr>
+<tr>
+    <td></td>
+
+    <td colspan="2" style="width: 80%" >
+    <table>
+        <thead>
+        <tr>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Amount</th>
+        </tr>
+        </thead>
+        <tbody>
+            <?php
+                foreach($productData as $productRow){
+                    if($productRow['cartId']==$orderRow->cart){
+                        include 'productTable.phtml';
+                    }
+                }
+            ?>
+        </tbody>
+    </table>
+</td>
+</tr>
+
