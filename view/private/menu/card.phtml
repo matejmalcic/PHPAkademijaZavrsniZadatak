@@ -1,6 +1,18 @@
 <div class="col-sm-3">
     <div class="card">
-        <img class="card-img-top" src="..." alt="Card image cap">
+        <?php
+        if(file_exists(BP . 'images' . DIRECTORY_SEPARATOR .
+            'products' . DIRECTORY_SEPARATOR . $product->id . '.png')): ?>
+
+            <img class="card-img-top"
+                 src="<?= \App\Core\Config::get('url') ?>images/products/<?= $product->id ?>.png"
+                 alt="Meal image" />
+
+        <?php else:?>
+            <img class="card-img-top"
+                 src="<?= \App\Core\Config::get('url') ?>images/products/unknownMeal.jpg"
+                 alt="Meal picture not set" />
+        <?php endif;?>
         <div class="card-body">
             <h5 class="card-title"><?=  $product->name ?></h5>
             <p class="card-text"><?=  $product->description ?></p>

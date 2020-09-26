@@ -11,7 +11,7 @@ class ProductCart extends AbstractModel
     public static function getProducts($cartId)
     {
         $sql = " 
-             SELECT p.image, p.name, p.description, p.price, pc.amount 
+             SELECT p.id, p.image, p.name, p.description, p.price, pc.amount 
              FROM product p INNER JOIN product_cart pc on p.id = pc.productid
              WHERE pc.cartId = :cartId
         ";
