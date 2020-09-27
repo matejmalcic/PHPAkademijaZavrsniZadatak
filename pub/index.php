@@ -16,8 +16,4 @@ session_start();
 $router = new \App\Core\Router();
 $application = new \App\Core\Application($router);
 
-$response = $application->run();
-
-if ($response) {
-    echo $response;
-}
+$application->run();

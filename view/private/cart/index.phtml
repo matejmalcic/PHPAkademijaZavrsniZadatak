@@ -1,0 +1,21 @@
+<table class="table">
+    <thead>
+    <tr>
+        <th>Image</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Price</th>
+        <th>Amount</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php
+    foreach($data as $row){
+        include 'table.phtml';
+    }
+    ?>
+    </tbody>
+</table>
+
+<a href="/order/cartOrder?cartId=<?= $cartId ?>" class="btn btn-success"> Order</a>
