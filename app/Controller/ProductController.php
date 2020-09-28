@@ -17,12 +17,13 @@ class ProductController extends MainController
         $this->cartId = Cart::getOne('sessionId', session_id())->id;
     }
 
-    public function menuAction()
+    public function menuAction($message = null)
     {
         $data = Product::getAll();
         return $this->view->render($this->viewDir . 'index',[
             'data' => $data,
-            'cartId' => $this->cartId
+            'cartId' => $this->cartId,
+            'message' => $message
         ]);
     }
 
@@ -30,6 +31,84 @@ class ProductController extends MainController
     {
         $_GET['cartId'] = $this->cartId;
         ProductCart::insert($_GET);
+        return $this->menuAction();
+    }
+
+    public function editProductAction()
+    {
+
+        $product = Product::getOne('id', $_GET['id']);
+
+        if(!$product){
+            $this->menuAction();
+            exit;
+        }
+
+        $this->view->render($this->viewDir . 'edit',[
+            'product' => $product
+        ]);
+    }
+
+    public function submitEditProductAction()
+    {
+        if($this->auth->getCurrentUser()->status !== 'Admin'){
+            //set error message
+            header('Location: /');
+        }
+
+        $errors = [];
+        if(isset($_FILES['image']) && $_FILES['image']['name']!='') {
+            try {
+                Product::uploadImage();
+            } catch(\Exception $e) {
+                $errors = $e->getMessage();
+            }
+        } else {
+            $_POST['image'] = Product::getOne('id', $_POST['id'])->image;
+        }
+
+        if ($errors){
+            return $this->menuAction($e->getMessage());
+        }
+
+        Product::update($_POST,'id', $_POST['id']);
+        return $this->menuAction();
+    }
+
+    public function addNewProductAction()
+    {
+        $this->view->render($this->viewDir . 'addNew');
+    }
+
+    public function submitAddNewProductAction()
+    {
+        $errors = [];
+        if(isset($_FILES['image']) && $_FILES['image']['name']!='') {
+            try {
+                Product::uploadImage();
+            } catch(\Exception $e) {
+                $errors = $e->getMessage();
+            }
+        } else {
+            $_POST['image'] = '/images/products/unknownProduct.jpg';
+        }
+
+        if ($errors){
+            return $this->menuAction($e->getMessage());
+        }
+
+        Product::insert($_POST);
+        return $this->menuAction();
+    }
+
+    public function deleteProductAction()
+    {
+        if($this->auth->getCurrentUser()->status !== 'Admin'){
+            //set error message
+            header('Location: /');
+        }
+
+        Product::delete('id', $_GET['id']);
         return $this->menuAction();
     }
 }

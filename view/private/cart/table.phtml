@@ -1,22 +1,14 @@
 <tr>
     <td title="Image">
-        <?php
-        if(file_exists(BP . 'images' . DIRECTORY_SEPARATOR .
-            'products' . DIRECTORY_SEPARATOR . $row['id'] . '.png')): ?>
-
-            <img style="max-width: 200px"
-                 src="<?= \App\Core\Config::get('url') ?>images/products/<?= $row['id'] ?>.png"
-                 alt="Meal image" />
-
-        <?php else:?>
-            <img style="max-width: 200px"
-                 src="<?= \App\Core\Config::get('url') ?>images/products/unknownMeal.jpg"
-                 alt="Meal picture not set" />
-        <?php endif;?>
+        <img style="width: min-content; height: min-content" src="<?= $row->image ?>" alt="Product image" />
     </td>
-    <td title="Name"><?= $row['name']?></td>
-    <td title="Description"><?= $row['description']?></td>
-    <td title="Price"><?= $row['price']?></td>
-    <td title="Amount"><?= $row['amount']?></td>
-    <td title="Action"><a href="#"><i class="fas fa-times fa-2x"></i></a></td>
+    <td title="Name"><?= $row->name?></td>
+    <td title="Description"><?= $row->description ?></td>
+    <td title="Price"><?= $row->price ?></td>
+    <td title="Amount"><?= $row->amount ?></td>
+    <td title="Action">
+        <a href="/cart/removeProductFromCart?productId=<?= $row->id ?>">
+            <i class="fas fa-times fa-2x"></i>
+        </a>
+    </td>
 </tr>

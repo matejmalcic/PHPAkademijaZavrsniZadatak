@@ -19,6 +19,23 @@ class ProductCart extends AbstractModel
         $con = DB::getInstance()->prepare($sql);
         $con->execute([ 'cartId' => $cartId ]);
 
-        return $con->fetchAll();
+        $models = [];
+        while ($row = $con->fetch()) {
+            $models[] = static::createObject($row);
+        }
+
+        return $models;
+        //return $con->fetchAll();
+    }
+
+    public static function removeProduct($cartId, $productId)
+    {
+        $sql = "DELETE FROM product_cart WHERE cartId =:cartId  AND productId =:productId";
+
+        $con = DB::getInstance()->prepare($sql);
+        $con->execute([
+            'cartId' => $cartId,
+            'productId' => $productId
+        ]);
     }
 }

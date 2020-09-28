@@ -2,7 +2,7 @@
 
 namespace App\Model;
 
-class Subcategory extends AbstractModel
+class Category extends AbstractModel
 {
-    protected static $tableName = 'subcategory';
+    protected static $tableName = 'category';
 }

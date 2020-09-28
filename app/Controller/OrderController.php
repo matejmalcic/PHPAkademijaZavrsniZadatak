@@ -12,7 +12,7 @@ class OrderController extends MainController
 
     public function orderAction()
     {
-        $orderData = Order::getMultiple('user',$_SESSION['user_id']);
+        $orderData = Order::getOrderData();
         $productData = Order::productsByOrder();
         return $this->view->render($this->viewDir . 'index',[
             'orderData' => $orderData,
@@ -23,7 +23,7 @@ class OrderController extends MainController
     public function cartOrderAction()
     {
         Order::insert([
-            'user' => $_SESSION['user_id'],
+            'user' => $_SESSION['user']->id,
             'cart' => $_GET['cartId']
         ]);
         session_regenerate_id();

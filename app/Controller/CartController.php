@@ -24,4 +24,10 @@ class CartController extends MainController
             'cartId' => $this->cartId
         ]);
     }
+
+    public function removeProductFromCartAction()
+    {
+        ProductCart::removeProduct($this->cartId, $_GET['productId']);
+        return $this->cartAction();
+    }
 }

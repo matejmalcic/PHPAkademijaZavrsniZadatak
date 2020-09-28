@@ -1,0 +1,35 @@
+<form method="POST" action="/product/submitAddNewProduct" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="image"> Image </label>
+        <input type="file" name="image">
+    </div>
+
+    <div class="form-group">
+        <label for="name"> Name </label>
+        <input type="text" class="form-control" name="name">
+    </div>
+
+    <div class="form-group">
+        <label for="description">Description </label>
+        <input type="text" class="form-control" name="description">
+    </div>
+
+    <div class="form-group">
+        <label for="category">Category</label>
+        <select class="form-control" name="category">
+            <?php foreach($categories as $cat):?>
+                <option value="<?= $cat->id ?>"><?= $cat->name ?></option>
+            <?php endforeach; ?>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="price"> Price </label>
+        <input type="number" class="form-control" name="price" step=".01">
+    </div>
+
+    <div>
+        <a href="/product/menu" class="btn btn-danger"> Back </a>
+        <input type="submit" class="btn btn-success" value="Add">
+    </div>
+</form>

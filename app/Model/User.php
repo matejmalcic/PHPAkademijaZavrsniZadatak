@@ -17,13 +17,12 @@ class User extends AbstractModel
 
     public static function setSessionId()
     {
-        $sessionId = session_id();
         $sql = "UPDATE user SET sessionId = :sessionId WHERE id = :userId";
 
         $con = DB::getInstance()->prepare($sql);
         $con->execute([
-            'sessionId' => $sessionId,
-            'userId' => $_SESSION['user_id']
+            'sessionId' => session_id(),
+            'userId' => $_SESSION['user']->id
         ]);
     }
 }
