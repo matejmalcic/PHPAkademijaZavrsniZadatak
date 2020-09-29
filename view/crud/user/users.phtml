@@ -1,0 +1,26 @@
+<a href="/admin/addNewUser" class="btn">Add new user</a>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Status</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($data as $user): ?>
+        <tr>
+            <td title="Id"><?= $user->id?></td>
+            <td title="Name"><?= $user->first_name . ' ' . $user->last_name ?></td>
+            <td title="Email"><?= $user->email ?></td>
+            <td title="Status"><?= $user->status ?></td>
+            <td>
+                <a href="/admin/editUser?id=<?= $user->id ?>" style="color: green"><i class="fas fa-user-edit fa-2x"></i></a>
+                <a href="/admin/deleteUser?id=<?= $user->id ?>" style="color: red"><i class="fas fa-user-times fa-2x"></i></a>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+    </tbody>
+</table>

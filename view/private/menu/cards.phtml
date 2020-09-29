@@ -1,7 +1,7 @@
 <div class="row">
     <?php
     foreach ($data as $product){
-        if($product->subcategory === $sub->id){
+        if($product->category === $cat->id){
             include 'card.phtml';
         }
     }

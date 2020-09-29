@@ -2,7 +2,7 @@
 
 namespace App\Core;
 
-use App\Model\Subcategory;
+use App\Model\Category;
 
 class View
 {
@@ -17,7 +17,7 @@ class View
     {
         ob_start();
         $currentUser = Auth::getInstance()->getCurrentUser();
-        $subCategories = Subcategory::getAll();
+        $categories = Category::getAll();
         extract($args);
         include BP . DIRECTORY_SEPARATOR . "view/$name.phtml";
         $content = ob_get_clean();

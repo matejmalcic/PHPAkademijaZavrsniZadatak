@@ -32,7 +32,7 @@ class UserController extends MainController
             return;
         }
 
-        $requiredKeys = ['first_name', 'last_name', 'username', 'email', 'password', 'confirm_password'];
+        $requiredKeys = ['first_name', 'last_name', 'email', 'password', 'confirm_password'];
         if (!$this->validateData($_POST, $requiredKeys)) {
             // set error message
             header('Location: /user/register');
@@ -41,6 +41,10 @@ class UserController extends MainController
 
         if ($_POST['password'] !== $_POST['confirm_password']) {
             // set error message
+            if($_SESSION['user']->status === 'Admin'){
+                header('Location: /admin/addNewUser');
+                return;
+            }
             header('Location: /user/register');
             return;
         }
@@ -49,6 +53,10 @@ class UserController extends MainController
 
         if ($user->getId()) {
             // user already exists
+            if($_SESSION['user']->status === 'Admin'){
+                header('Location: /admin/addNewUser');
+                return;
+            }
             header('Location: /user/register');
             return;
         }
@@ -56,11 +64,14 @@ class UserController extends MainController
         User::insert([
             'first_name' => $_POST['first_name'] ?? null,
             'last_name' => $_POST['last_name'] ?? null,
-            'username' => $_POST['username'],
             'email' => $_POST['email'],
-            'password' => password_hash($_POST['password'], PASSWORD_DEFAULT)
+            'password' => password_hash($_POST['password'], PASSWORD_DEFAULT),
         ]);
 
+        if($_SESSION['user']->status === 'Admin'){
+            header('Location: /admin/userCrud');
+            return;
+        }
         header('Location: /user/login');
     }
 
@@ -114,8 +125,8 @@ class UserController extends MainController
         header('Location: /');
     }
 
-    public function profileAction()
-    {
-        $this->view->render('profile');
-    }
+
+
+
+
 }

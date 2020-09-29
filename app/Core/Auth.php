@@ -13,7 +13,7 @@ class Auth
 
     private function __construct()
     {
-        if ($userId = $_SESSION['user_id'] ?? null) {
+        if ($userId = $_SESSION['user']->id ?? null) {
             $user = User::getOne('id', $userId);
             $this->currentUser = $user->getId() ? $user : null;
         }
@@ -35,15 +35,17 @@ class Auth
     public function login(User $user): void
     {
         if ($user->getId()) {
-            $_SESSION['user_id'] = $user->getId();
-            $user->setSessionId();
+            if ($user->getStatus() === 'Guest') {
+                $user->setSessionId($user->getId());
+            }
+            $_SESSION['user'] = $user;
             $this->currentUser = $user;
         }
     }
 
     public function logout(): void
     {
-        unset($_SESSION['user_id'], $this->currentUser);
+        unset($_SESSION['user'], $this->currentUser);
     }
 
     public function isLoggedIn(): bool

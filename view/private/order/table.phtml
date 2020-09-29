@@ -1,33 +1,22 @@
-<tr>
+<?php if($orderRow->user === $_SESSION['user']->id || $_SESSION['user']->status !== 'Guest'): ?>
+<tr style="background-color: #ffad33">
     <td title="Order Number"><?= $orderRow->id ?></td>
-    <td title="Order time"><?= $orderRow->time?></td>
-    <td title="Price"><?= 'asf '?></td>
+    <td title="Order time"><?= $orderRow->time ?></td>
+    <td title="Price"><?= $orderRow->price ?> €</td>
     <td title="Status"><?= $orderRow->status ?></td>
+    <td>
+        <i title="Ready" class="fas fa-cash-register fa-2x"></i>
+        <i title="Finish" class="fas fa-file-invoice-dollar fa-2x"></i>
+        <i title="Edit" class="fas fa-list-ul fa-2x"></i>
+        <i title="Delete" class="fas fa-backspace fa-2x"></i>
+    </td>
 </tr>
-<tr>
-    <td></td>
+<?php
+foreach ($productData as $product){
+    if ($orderRow->cart === $product->cartId){
+        include 'productTable.phtml';
+    }
+}
+?>
 
-    <td colspan="2" style="width: 80%" >
-    <table>
-        <thead>
-        <tr>
-            <th>Image</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Price</th>
-            <th>Amount</th>
-        </tr>
-        </thead>
-        <tbody>
-            <?php
-                foreach($productData as $productRow){
-                    if($productRow['cartId']==$orderRow->cart){
-                        include 'productTable.phtml';
-                    }
-                }
-            ?>
-        </tbody>
-    </table>
-</td>
-</tr>
-
+<?php endif;?>

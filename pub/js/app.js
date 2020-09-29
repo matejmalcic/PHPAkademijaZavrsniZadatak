@@ -1,9 +1,9 @@
 $(document).ready(function() {
+    //Modal for putting product in cart
     $('i.fa-cart-plus').on('click', function () {
         var productId = $(this).attr('data-productId');
         var productName = $(this).attr('data-productName');
 
-        console.log('here');
         $('#question').html('Add ' + productName + ' to cart?');
         $('#addLink').attr('href', '/product/putProductInCart?productId=' + productId);
         $('#myModal').modal('show');
@@ -18,4 +18,23 @@ $(document).ready(function() {
         $('#addLink').attr('href', link);
     });
 
+    //AJAX for deleting product rom cart
+    // $('.remove-product').on('click', function () {
+    //     var productId = $(this).attr('data-productId');
+    //
+    //     $.ajax({
+    //         type: 'POST',
+    //         url: '/cart/removeProductFromCart',
+    //         data: { 'productId': productId },
+    //         success: function (data) {
+    //             console.log(data.product);
+    //             console.log(data.cart);
+    //             $('.ajaxTest').append('suc');
+    //         },
+    //         complete: function () {
+    //
+    //         },
+    //         dataType: 'json'
+    //     });
+    // })
 });

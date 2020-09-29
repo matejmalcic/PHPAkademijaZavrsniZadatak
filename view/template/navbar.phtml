@@ -5,32 +5,39 @@
                 <a class="nav-link navbar-brand" href="/">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/product/menu">Menu</a>
+                <a class="nav-link navbar-brand" href="/home/about">About Us</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/user/profile">Profile</a>
+                <a class="nav-link navbar-brand" href="/product/menu">Menu</a>
             </li>
+            <?php if ($currentUser && $currentUser->status === 'Admin'): ?>
+                <li class="nav-item">
+                    <a class="nav-link navbar-brand" href="/admin/userCrud">Users</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link navbar-brand" href="#">Categories</a>
+                </li>
+            <?php endif; ?>
             <li class="nav-item">
-                <a class="nav-link" href="/order/order">Orders</a>
+                <a class="nav-link navbar-brand" href="/order/order">Orders</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/home/about">About Us</a>
-            </li>
+            <?php if ($currentUser && $currentUser->status === 'Guest'): ?>
             <li class="nav-item">
                 <a class="nav-link" href="/cart/cart"><i class="fas fa-shopping-cart fa-2x"></i></a>
             </li>
+            <?php endif; ?>
         </ul>
         <ul class="navbar-nav">
             <?php if ($currentUser === null): ?>
                 <li class="nav-item">
-                    <a class="nav-link" href="/user/login">Login</a>
+                    <a class="nav-link navbar-brand" href="/user/login">Login</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/user/register">Register</a>
+                    <a class="nav-link navbar-brand" href="/user/register">Register</a>
                 </li>
             <?php else: ?>
                 <li class="nav-item">
-                    <a class="nav-link" href="/user/logout">Logout</a>
+                    <a class="nav-link navbar-brand" href="/user/logout">Logout</a>
                 </li>
             <?php endif; ?>
         </ul>
