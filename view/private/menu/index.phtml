@@ -1,7 +1,7 @@
 <?php
 if (isset($message)) echo $message;
 if ($currentUser && $currentUser->status === 'Admin'): ?>
-    <a href="/product/addNewProduct" class="btn">Add new product</a>
+    <a href="/product/addNewProduct" class="btn btn-primary">Add new product</a>
 <?php endif; ?>
 <?php foreach ($categories as $cat ): ?>
 
