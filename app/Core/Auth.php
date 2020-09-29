@@ -35,10 +35,10 @@ class Auth
     public function login(User $user): void
     {
         if ($user->getId()) {
-            $_SESSION['user'] = $user;
-            if ($_SESSION['user']->status === 'Guest') {
-                $user->setSessionId();
+            if ($user->getStatus() === 'Guest') {
+                $user->setSessionId($user->getId());
             }
+            $_SESSION['user'] = $user;
             $this->currentUser = $user;
         }
     }

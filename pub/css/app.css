@@ -1,0 +1,36 @@
+body {
+    background-image: url('https://restaurantindia.s3.ap-south-1.amazonaws.com/s3fs-public/content11850.jpg');
+    background-size: cover;
+    background-attachment: scroll;
+}
+
+thead > tr {
+    background-color: #cc6600;
+}
+
+th, td {
+    border-bottom: 1px solid #ffad33;
+}
+
+.container {
+    padding: 25px;
+    background: gainsboro;
+    min-height: 500px;
+    opacity: 0.83;"
+}
+
+.welcome {
+    font-size: 120px;
+    font-family: "Times New Roman", Times, serif;
+    text-align: center;
+    margin-top: 80px;
+}
+
+.btn {
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+    background-color: #cc6600;
+    border-radius: 4px;
+}
+

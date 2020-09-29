@@ -7,7 +7,7 @@
             <h5 class="card-title"><?= $product->name ?></h5>
             <p class="card-text"><?= $product->description ?></p>
             <p> <?= $product->price ?> €</p>
-            <?php if($currentUser->status === 'Admin'): ?>
+            <?php if($currentUser && $currentUser->status === 'Admin'): ?>
             <a href="/product/editProduct?id=<?= $product->id ?>"><i class="fas fa-edit fa-2x"></i></a>
             <a href="/product/deleteProduct?id=<?= $product->id ?>"><i class="fas fa-trash-alt fa-2x"></i></a>
             <?php else: ?>

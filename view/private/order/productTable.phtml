@@ -1,9 +1,7 @@
 <tr>
-    <td title="Image">
-        <img style="width: min-content; height: min-content" src="<?= $productRow['image'] ?>" alt="Product image" />
-    </td>
-    <td title="Name"><?= $productRow['name'] ?></td>
-    <td title="Description"><?= $productRow['description'] ?></td>
-    <td title="Price"><?= $productRow['price'] ?></td>
-    <td title="Amount"><?= $productRow['amount'] ?></td>
+    <td></td>
+    <td title="Image"><img src="<?= $product->productImage ?>" style="width: 150px; height: 100px;"></td>
+    <td title="Name"><?= $product->productName ?></td>
+    <td title="Amount">Amount: <?= $product->amount ?></td>
+    <td></td>
 </tr>

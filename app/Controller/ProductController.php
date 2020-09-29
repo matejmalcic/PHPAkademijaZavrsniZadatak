@@ -9,12 +9,12 @@ use App\Model\ProductCart;
 class ProductController extends MainController
 {
     private $viewDir = 'private' . DIRECTORY_SEPARATOR . 'menu' . DIRECTORY_SEPARATOR;
-    private $cartId;
+    private $cart;
 
     public function __construct()
     {
         parent::__construct();
-        $this->cartId = Cart::getOne('sessionId', session_id())->id;
+        $this->cart = Cart::getOne('sessionId', session_id());
     }
 
     public function menuAction($message = null)
@@ -22,21 +22,20 @@ class ProductController extends MainController
         $data = Product::getAll();
         return $this->view->render($this->viewDir . 'index',[
             'data' => $data,
-            'cartId' => $this->cartId,
             'message' => $message
         ]);
     }
 
     public function putProductInCartAction()
     {
-        $_GET['cartId'] = $this->cartId;
+        $_GET['cartId'] = $this->cart->id;
         ProductCart::insert($_GET);
         return $this->menuAction();
     }
 
+    //next 5 functions are product CRUD for admin
     public function editProductAction()
     {
-
         $product = Product::getOne('id', $_GET['id']);
 
         if(!$product){
@@ -82,6 +81,11 @@ class ProductController extends MainController
 
     public function submitAddNewProductAction()
     {
+        if($this->auth->getCurrentUser()->status !== 'Admin'){
+            //set error message
+            header('Location: /');
+        }
+
         $errors = [];
         if(isset($_FILES['image']) && $_FILES['image']['name']!='') {
             try {

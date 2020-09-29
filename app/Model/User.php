@@ -15,14 +15,14 @@ class User extends AbstractModel
         return $this->__get('password');
     }
 
-    public static function setSessionId()
+    public static function setSessionId($userId)
     {
         $sql = "UPDATE user SET sessionId = :sessionId WHERE id = :userId";
 
         $con = DB::getInstance()->prepare($sql);
         $con->execute([
             'sessionId' => session_id(),
-            'userId' => $_SESSION['user']->id
+            'userId' => $userId
         ]);
     }
 }
