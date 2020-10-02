@@ -10,6 +10,7 @@ CREATE TABLE user (
     email       VARCHAR(100) NOT NULL,
     password    CHAR(60) NOT NULL,
     status      VARCHAR(15) NOT NULL DEFAULT 'Guest',
+    points      INT DEFAULT 0,
     sessionId   VARCHAR(255)
 );
 CREATE UNIQUE INDEX emailindex ON user(email);
@@ -34,8 +35,13 @@ CREATE TABLE cart (
       userId		INT NOT NULL,
       sessionId		VARCHAR(255) NOT NULL UNIQUE,
       price			DECIMAL(10,2) DEFAULT 0.00,
+      ordered		BOOL DEFAULT 0,
       FOREIGN KEY (userId) REFERENCES user(id) ON DELETE CASCADE
-      #ordered       tinyint default 0
+);
+
+CREATE TABLE status (
+    id      INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    name    VARCHAR(50) UNIQUE
 );
 
 create table orders (
@@ -43,10 +49,11 @@ create table orders (
     user 	    INT NOT NULL,
     cart	    INT NOT NULL UNIQUE,
     price       DECIMAL(10,2),
-    time        TIME DEFAULT now(),
-    status      TINYINT(2) DEFAULT 0,
+    time        TIME,
+    status      VARCHAR(50) NOT NULL DEFAULT 'Preparing',
     FOREIGN KEY (user) REFERENCES user(id) ON DELETE CASCADE,
-    FOREIGN KEY (cart) REFERENCES cart(id) ON DELETE CASCADE
+    FOREIGN KEY (cart) REFERENCES cart(id) ON DELETE CASCADE,
+    FOREIGN KEY (status) REFERENCES status(name) ON DELETE CASCADE
 );
 
 CREATE TABLE product_cart (
@@ -57,90 +64,3 @@ CREATE TABLE product_cart (
     FOREIGN KEY (cartId) REFERENCES cart (id) ON DELETE CASCADE,
     FOREIGN KEY (productId) REFERENCES product (id) ON DELETE CASCADE
 );
-
-### TRIGGER'S ###
-# 1. Create cart for Guest after generating sessionId
-CREATE TRIGGER new_user
-    AFTER UPDATE ON user FOR EACH ROW
-    BEGIN
-        IF !(NEW.sessionId <=> OLD.sessionId) AND OLD.status = 'Guest' THEN
-            INSERT INTO cart(sessionId, userId) value (new.sessionId, old.id);
-        END IF;
-    END;
-
-# 2. Calculate new price for cart after adding new product into it (price*amount)
-CREATE TRIGGER calculate_price_on_insert
-    AFTER INSERT
-    ON product_cart
-    FOR EACH ROW
-    UPDATE cart SET  price = price + NEW.amount*(
-        SELECT p.price FROM product p
-        INNER JOIN product_cart pc ON p.id = pc.productId
-        WHERE pc.id = NEW.id
-    )
-    WHERE cart.id = NEW.cartId;
-
-# 3. Calculate new price for cart after removing product from cart (price*amount)
-CREATE TRIGGER calculate_price_on_delete
-    BEFORE DELETE
-    ON product_cart
-    FOR EACH ROW
-    UPDATE cart SET  price = price - OLD.amount*(
-        SELECT p.price FROM product p
-        INNER JOIN product_cart pc ON p.id = pc.productId
-        WHERE pc.id = OLD.id
-    )
-    WHERE cart.id = OLD.cartId;
-
-INSERT INTO user (first_name, last_name, email, status, password)
-VALUES
-('Matej', 'Malčić', 'matej.malcic3@gmail.com', 'Admin', '$2y$10$QmBXi5FYaLNsgrbiDxTq/ORCPsPPomWdsUUOhcvqUInfP/vC4fmta');
-
-INSERT INTO category (name) VALUES
-('Wine'),
-('Beer'),
-('Cocktail'),
-('Hot Drinks'),
-('Juice'),
-('Soup'),
-('Breakfast'),
-('Lunch'),
-('Dinner'),
-('Sea food'),
-('Salad'),
-('Desert');
-
-INSERT INTO product (name, description, category, price) VALUES
-('Wine1', 'Description text', 1, 4.00),
-('Wine2', 'Description text', 1, 9.00),
-('Beer1', 'Description text', 2, 4.00),
-('Beer2', 'Description text', 2, 4.00),
-('Cocktail1', 'Description text', 3, 24.00),
-('Cocktail2', 'Description text', 3, 24.00),
-('Cocktail3', 'Description text', 3, 24.00);
-# ('Coffee', 'Description text', 4, 2.00),
-# ('Cappuccino', 'Description text', 4, 2.00),
-# ('Tea', 'Description text', 4, 2.00),
-# ('Coca-cola', 'Description text', 5, 3.00),
-# ('Pepsi', 'Description text', 5, 3.00),
-# ('Sprite', 'Description text', 5, 3.00),
-# ('Chicken Soup', 'Description text', 6, 5.00),
-# ('Coyote Soup', 'Description text', 6, 5.00),
-# ('Chinese Soup', 'Description text', 6, 5.00),
-# ('Double Egg', 'Description text', 7, 5.00),
-# ('Natural Break', 'Description text', 7, 5.00),
-# ('Spicy Start', 'Description text', 7, 5.00),
-# ('Star Lunch', 'Description text', 8, 5.00),
-# ('Hap Lunch', 'Description text', 8, 5.00),
-# ('Mardeljone', 'Description text', 8, 5.00),
-# ('Thai Way', 'Description text', 9, 5.00),
-# ('Pasta', 'Description text', 9, 5.00),
-# ('Golden shrimp', 'Description text', 10, 5.00),
-# ('Octopus', 'Description text', 10, 5.00),
-# ('Swordfish', 'Description text', 10, 5.00),
-# ('Green salad', 'Description text', 11, 5.00),
-# ('Mexican', 'Description text', 11, 5.00),
-# ('Mixed', 'Description text', 11, 5.00),
-# ('Biskvit', 'Description text', 12, 5.00),
-# ('Madarone', 'Description text', 12, 5.00),
-# ('Creampie', 'Description text', 12, 5.00);

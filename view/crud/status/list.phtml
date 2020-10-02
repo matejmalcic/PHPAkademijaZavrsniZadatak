@@ -1,0 +1,19 @@
+<form class="forms" method="post" action="/admin/submitStatusEdit">
+    <?php foreach ($status as $stat): ?>
+        <div class="form-group">
+
+            <a href="/admin/deleteStatus?id=<?= $stat->id ?>">
+                <i style="float: right" class="fas fa-times fa-2x"></i></a>
+            <span>
+                <input type="text" class="form-control"  style="width: 96%"
+                       name="<?= $stat->id ?>" value="<?= $stat->name ?>">
+            </span>
+        </div>
+    <?php endforeach; ?>
+    <button type="submit" class="btn">Save Changes</button>
+</form>
+<br>
+<form class="forms" method="post" action="/admin/addNewStatus">
+    <input type="text" class="form-control" name="name">
+    <button type="submit" class="btn" >Add new</button>
+</form>

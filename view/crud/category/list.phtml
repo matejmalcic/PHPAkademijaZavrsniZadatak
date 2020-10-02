@@ -1,0 +1,22 @@
+<form class="forms" method="post" action="/admin/submitCategoryEdit">
+    <?php foreach ($categories as $category): ?>
+        <div class="form-group">
+
+            <a href="/admin/deleteCategory?id=<?= $category->id ?>">
+                <i style="float: right" class="fas fa-times fa-2x"></i></a>
+
+            <span>
+                <input type="text" class="form-control"  style="width: 96%"
+                       name="<?= $category->id ?>" value="<?= $category->name ?>">
+            </span>
+
+
+        </div>
+    <?php endforeach; ?>
+    <button type="submit" class="btn">Save Changes</button>
+</form>
+<br>
+<form class="forms" method="post" action="/admin/addNewCategory">
+    <input type="text" class="form-control" name="name">
+    <button type="submit" class="btn" >Add new</button>
+</form>

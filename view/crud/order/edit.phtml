@@ -1,0 +1,21 @@
+
+<a href="/order/order" class="btn"> Back </a>
+<a href="/staff/addNewProduct?cartId=<?= $cart->id?>" class="btn"> Add new product </a>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Image</th>
+        <th>Name</th>
+        <th>Amount</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php
+    foreach($orderInfo as $product){
+        include 'table.phtml';
+    }
+    ?>
+    </tbody>
+</table>

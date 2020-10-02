@@ -28,7 +28,39 @@ class CartController extends MainController
 
     public function removeProductFromCartAction()
     {
-        ProductCart::removeProduct($this->cart, $_GET['productId']);
-        return $this->cartAction();
+        ProductCart::removeProduct($_GET['cartId'], $_GET['productId']);
+        if ($_SESSION['user']->status === 'Guest'){
+            return $this->cartAction();
+        }
+
+        $render = new OrderController();
+        return $render->orderAction();
+    }
+
+    public function changeAmountAction()
+    {
+        $data = [
+            'cartId' => $_GET['cartId'],
+            'productId' => $_GET['productId'],
+            'amount' => $_GET['amount']
+        ];
+
+        ProductCart::amount($data);
+
+        if($_SESSION['user']->status === 'Guest'){
+            return $this->cartAction();
+        }
+
+        $render = new OrderController();
+        return $render->orderAction();
+    }
+
+    public function deleteCartAction(): void
+    {
+        $cart = Cart::getOne('sessionId', $_SESSION['user']->sessionId);
+
+        if(!$cart->getOrdered()){
+            Cart::delete('sessionId', $_SESSION['user']->sessionId);
+        }
     }
 }

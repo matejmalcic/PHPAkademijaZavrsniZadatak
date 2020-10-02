@@ -1,14 +1,27 @@
-<?php if($orderRow->user === $_SESSION['user']->id || $_SESSION['user']->status !== 'Guest'): ?>
 <tr style="background-color: #ffad33">
-    <td title="Order Number"><?= $orderRow->id ?></td>
-    <td title="Order time"><?= $orderRow->time ?></td>
-    <td title="Price"><?= $orderRow->price ?> €</td>
-    <td title="Status"><?= $orderRow->status ?></td>
+    <td><?= $orderRow->id ?></td>
+    <td><?= $orderRow->time ?></td>
+    <td><?= $orderRow->price ?> €</td>
     <td>
-        <i title="Ready" class="fas fa-cash-register fa-2x"></i>
-        <i title="Finish" class="fas fa-file-invoice-dollar fa-2x"></i>
-        <i title="Edit" class="fas fa-list-ul fa-2x"></i>
-        <i title="Delete" class="fas fa-backspace fa-2x"></i>
+        <a class="btn <?php if($currentUser->status === 'Guest') echo 'disabled'?>"
+           href="/staff/changeStatus?orderId=<?= $orderRow->id ?>
+           &statusName=<?= $orderRow->status ?>
+           &direction=Previous"> < </a>
+
+        <button class="btn"> <?= $orderRow->status ?> </button>
+
+        <a class="btn <?php if($currentUser->status === 'Guest') echo 'disabled'?>"
+           href="/staff/changeStatus?orderId=<?= $orderRow->id ?>
+           &statusName=<?= $orderRow->status ?>
+           &direction=Next"> > </a>
+    </td>
+    <td>
+        <!-- Edit Order-->
+        <a class="btn <?php if($currentUser->status === 'Guest') echo 'disabled'?>"
+           href="/staff/editOrder?id=<?= $orderRow->cart ?>">Edit</a>
+        <!-- Delete Order-->
+        <a class="btn <?php if($currentUser->status === 'Guest') echo 'disabled'?>"
+           href="/staff/deleteOrder?cartId=<?= $orderRow->cart ?>">Done</a>
     </td>
 </tr>
 <?php
@@ -19,4 +32,3 @@ foreach ($productData as $product){
 }
 ?>
 
-<?php endif;?>

@@ -1,0 +1,20 @@
+<tr>
+    <td title="Image">
+        <img style="width: 200px; height: 150px" src="<?= $product->image ?>" alt="Product image" />
+    </td>
+    <td title="Name"><?= $product->name?></td>
+    <td title="Amount">
+       <a class="btn changeAmountModal"
+          data-toggle="modal"
+          data-target="#changeAmount"
+          data-productId="<?= $product->id ?>"
+          data-cartId=<?= $cart->id ?>> <?= $product->amount ?>
+       </a>
+    </td>
+
+    <td title="Action">
+        <a href="/cart/removeProductFromCart?productId=<?= $product->id ?>&cartId=<?= $cart->id ?>">
+            <i class="fas fa-times fa-2x"></i>
+        </a>
+    </td>
+</tr>

@@ -15,7 +15,10 @@
                     <a class="nav-link navbar-brand" href="/admin/userCrud">Users</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link navbar-brand" href="#">Categories</a>
+                    <a class="nav-link navbar-brand" href="/admin/category">Categories</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link navbar-brand" href="/admin/status">Status</a>
                 </li>
             <?php endif; ?>
             <li class="nav-item">
@@ -28,6 +31,17 @@
             <?php endif; ?>
         </ul>
         <ul class="navbar-nav">
+            <?php if ($currentUser && $currentUser->status === 'Guest' && $currentUser->email !== 'noLogin@user.com'): ?>
+                <?php if($currentUser->points > \App\Core\Config::get('points')):?>
+                    <li>
+                        <p class="points"> You have discount! </p>
+                    </li>
+                <?php endif; ?>
+                <li class="nav-item">
+                    <p class="points"> Points:  <?= $currentUser->points ?> </p>
+                </li>
+
+            <?php endif; ?>
             <?php if ($currentUser === null): ?>
                 <li class="nav-item">
                     <a class="nav-link navbar-brand" href="/user/login">Login</a>

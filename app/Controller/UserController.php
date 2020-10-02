@@ -75,6 +75,14 @@ class UserController extends MainController
         header('Location: /user/login');
     }
 
+    public function withoutLoginAction()
+    {
+        $user = User::getOne('email', 'noLogin@user.com');
+
+        $this->auth->login($user);
+        header('Location: /');
+    }
+
     public function loginSubmitAction()
     {
         // only POST requests are allowed
@@ -118,11 +126,11 @@ class UserController extends MainController
     {
         if ($this->auth->isLoggedIn()) {
             $this->auth->logout();
+
             session_regenerate_id();
-            //delete cart from db
         }
 
-        header('Location: /');
+        header('Location: /user/login');
     }
 
 

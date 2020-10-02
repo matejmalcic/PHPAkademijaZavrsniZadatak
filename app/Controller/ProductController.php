@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Core\Upload;
 use App\Model\Cart;
 use App\Model\Product;
 use App\Model\ProductCart;
@@ -17,12 +18,11 @@ class ProductController extends MainController
         $this->cart = Cart::getOne('sessionId', session_id());
     }
 
-    public function menuAction($message = null)
+    public function menuAction()
     {
         $data = Product::getAll();
         return $this->view->render($this->viewDir . 'index',[
-            'data' => $data,
-            'message' => $message
+            'data' => $data
         ]);
     }
 
@@ -58,7 +58,7 @@ class ProductController extends MainController
         $errors = [];
         if(isset($_FILES['image']) && $_FILES['image']['name']!='') {
             try {
-                Product::uploadImage();
+                Upload::uploadImage();
             } catch(\Exception $e) {
                 $errors = $e->getMessage();
             }
@@ -89,7 +89,7 @@ class ProductController extends MainController
         $errors = [];
         if(isset($_FILES['image']) && $_FILES['image']['name']!='') {
             try {
-                Product::uploadImage();
+                Upload::uploadImage();
             } catch(\Exception $e) {
                 $errors = $e->getMessage();
             }
