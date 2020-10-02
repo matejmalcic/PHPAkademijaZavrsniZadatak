@@ -2,13 +2,18 @@
 
 namespace App\Controller;
 
+use App\Model\Cart;
+use App\Model\Category;
+use App\Model\Order;
+use App\Model\Product;
+use App\Model\ProductCart;
+use App\Model\Status;
 use App\Model\User;
 
 
 class AdminController extends MainController
 {
     private $viewDirUser = 'crud' . DIRECTORY_SEPARATOR . 'user' . DIRECTORY_SEPARATOR;
-    //private $viewDirCategory = 'crud' . DIRECTORY_SEPARATOR . 'category' . DIRECTORY_SEPARATOR;
 
     public function __construct()
     {
@@ -24,7 +29,7 @@ class AdminController extends MainController
     {
         $data = User::getAll();
 
-        return $this->view->render($this->viewDirUser . 'users',[
+        return $this->view->render($this->viewDirUser . 'users', [
             'data' => $data
         ]);
     }
@@ -33,7 +38,7 @@ class AdminController extends MainController
     {
         $user = User::getOne('id', $_GET['id']);
 
-        if(!$user){
+        if (!$user) {
             $this->userCrudAction();
             exit;
         }
@@ -45,10 +50,10 @@ class AdminController extends MainController
 
     public function submitEditUserAction()
     {
-        if($_POST['password'] != ''){
-            if($_POST['password'] !== $_POST['confirm_password']){
+        if ($_POST['password'] != '') {
+            if ($_POST['password'] !== $_POST['confirm_password']) {
                 //imap_alerts();
-                header('Location: /admin/editUser?id='. $_GET['id']);
+                header('Location: /admin/editUser?id=' . $_GET['id']);
             }
             $_POST['password'] = password_hash($_POST['password'], PASSWORD_DEFAULT);
         } else {
@@ -77,5 +82,104 @@ class AdminController extends MainController
         User::delete('id', $_GET['id']);
 
         return $this->userCrudAction();
+    }
+
+    public function statusAction()
+    {
+        $data = Status::getAll('id');
+        return $this->view->render('crud/status/list', [
+            'status' => $data
+        ]);
+    }
+
+    public function submitStatusEditAction()
+    {
+        if (!$this->isPost()) {
+            // only POST requests are allowed
+            header('Location: /admin/status');
+            return;
+        }
+
+        foreach ($_POST as $id => $name) {
+            Status::update(['name' => $name], 'id', $id);
+        }
+
+        return $this->statusAction();
+    }
+
+    public function addNewStatusAction()
+    {
+        if (!$this->isPost()) {
+            // only POST requests are allowed
+            header('Location: /admin/status');
+            return;
+        }
+
+        if ($_POST['name'] === '') {
+            //You didnt entry status name
+            header('Location: /admin/status');
+            return;
+        }
+
+        Status::insert($_POST);
+
+        return $this->statusAction();
+    }
+
+    public function deleteStatusAction()
+    {
+        Status::delete('id', $_GET['id']);
+
+        return $this->statusAction();
+    }
+
+    public function categoryAction()
+    {
+        $data = Category::getAll('id');
+
+        return $this->view->render('crud/category/list', [
+            'categories' => $data
+        ]);
+    }
+
+    public function submitCategoryEditAction()
+    {
+        if (!$this->isPost()) {
+            // only POST requests are allowed
+            header('Location: /admin/category');
+            return;
+        }
+
+        foreach ($_POST as $id => $name) {
+            Category::update(['name' => $name], 'id', $id);
+        }
+
+        return $this->categoryAction();
+    }
+
+    public function addNewCategoryAction()
+    {
+        if (!$this->isPost()) {
+            // only POST requests are allowed
+            header('Location: /admin/category');
+            return;
+        }
+
+        if ($_POST['name'] === '') {
+            //You didnt entry status name
+            header('Location: /admin/category');
+            return;
+        }
+
+        Category::insert($_POST);
+
+        return $this->categoryAction();
+    }
+
+    public function deleteCategoryAction()
+    {
+        Category::delete('id', $_GET['id']);
+
+        return $this->categoryAction();
     }
 }

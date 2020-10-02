@@ -3,6 +3,7 @@
 namespace App\Core;
 
 use App\Model\Category;
+use App\Model\Status;
 
 class View
 {

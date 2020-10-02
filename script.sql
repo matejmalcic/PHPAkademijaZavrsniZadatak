@@ -10,6 +10,7 @@ CREATE TABLE user (
     email       VARCHAR(100) NOT NULL,
     password    CHAR(60) NOT NULL,
     status      VARCHAR(15) NOT NULL DEFAULT 'Guest',
+    points      INT DEFAULT 0,
     sessionId   VARCHAR(255)
 );
 CREATE UNIQUE INDEX emailindex ON user(email);
@@ -35,7 +36,11 @@ CREATE TABLE cart (
       sessionId		VARCHAR(255) NOT NULL UNIQUE,
       price			DECIMAL(10,2) DEFAULT 0.00,
       FOREIGN KEY (userId) REFERENCES user(id) ON DELETE CASCADE
-      #ordered       tinyint default 0
+);
+
+CREATE TABLE status (
+    id      INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    name    VARCHAR(50) UNIQUE
 );
 
 create table orders (
@@ -43,10 +48,11 @@ create table orders (
     user 	    INT NOT NULL,
     cart	    INT NOT NULL UNIQUE,
     price       DECIMAL(10,2),
-    time        TIME DEFAULT now(),
-    status      TINYINT(2) DEFAULT 0,
+    time        TIME,
+    status      VARCHAR(50) NOT NULL DEFAULT 'Preparing',
     FOREIGN KEY (user) REFERENCES user(id) ON DELETE CASCADE,
-    FOREIGN KEY (cart) REFERENCES cart(id) ON DELETE CASCADE
+    FOREIGN KEY (cart) REFERENCES cart(id) ON DELETE CASCADE,
+    FOREIGN KEY (status) REFERENCES status(name) ON DELETE CASCADE
 );
 
 CREATE TABLE product_cart (
@@ -92,23 +98,45 @@ CREATE TRIGGER calculate_price_on_delete
     )
     WHERE cart.id = OLD.cartId;
 
+
+# 4. Calculate new price for cart after changing amount (price*amount)
+CREATE TRIGGER calculate_price_on_amount_update
+    BEFORE UPDATE
+    ON product_cart
+    FOR EACH ROW
+    UPDATE cart SET  price = price + (NEW.amount - OLD.amount)*(
+        SELECT p.price FROM product p
+        INNER JOIN product_cart pc ON p.id = pc.productId
+        WHERE pc.id = OLD.id
+    )
+    WHERE cart.id = OLD.cartId;
+
+# 5. Add points after order
+CREATE TRIGGER points_calculate
+    AFTER INSERT
+    ON orders FOR EACH ROW
+    UPDATE user SET  points = points + (SELECT FLOOR(NEW.price/10))
+    WHERE user.id = NEW.user;
+
 INSERT INTO user (first_name, last_name, email, status, password)
 VALUES
-('Matej', 'Malčić', 'matej.malcic3@gmail.com', 'Admin', '$2y$10$QmBXi5FYaLNsgrbiDxTq/ORCPsPPomWdsUUOhcvqUInfP/vC4fmta');
+('Matej', 'Malčić', 'matej.malcic3@gmail.com', 'Admin', '$2y$10$QmBXi5FYaLNsgrbiDxTq/ORCPsPPomWdsUUOhcvqUInfP/vC4fmta'),
+('Stefan', 'Staffer', 'sefan@staff.com', 'Staff', '$2y$10$QmBXi5FYaLNsgrbiDxTq/ORCPsPPomWdsUUOhcvqUInfP/vC4fmta'),
+('Regular', 'Guest', 'noLogin@user.com', 'Guest', '$2y$10$QmBXi5FYaLNsgrbiDxTq/ORCPsPPomWdsUUOhcvqUInfP/vC4fmta'),
+('Ivo', 'Ivic', 'ivo@example.com', 'Guest', '$2y$10$QmBXi5FYaLNsgrbiDxTq/ORCPsPPomWdsUUOhcvqUInfP/vC4fmta');
 
 INSERT INTO category (name) VALUES
 ('Wine'),
-('Beer'),
-('Cocktail'),
-('Hot Drinks'),
-('Juice');
+('Beer');
 
+INSERT INTO status (name) VALUES
+('Preparing'),
+('Ready to take'),
+('Finished');
 
 INSERT INTO product (name, description, category, price) VALUES
-('Wine1', 'Description text', 1, 4.00),
-('Wine2', 'Description text', 1, 9.00),
-('Beer1', 'Description text', 2, 4.00),
-('Cocktail1', 'Description text', 3, 24.00),
-('Cocktail2', 'Description text', 3, 24.00),
-('Cocktail3', 'Description text', 3, 24.00);
+('Pinot', 'Description text', 1, 4.00),
+('Merlot', 'Description text', 1, 9.00),
+('Rizling', 'Description text', 1, 7.50);
+
 

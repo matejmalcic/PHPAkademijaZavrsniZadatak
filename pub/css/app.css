@@ -26,11 +26,37 @@ th, td {
     margin-top: 80px;
 }
 
+.fas {
+    color: #cc6600;
+}
+
 .btn {
     color: white;
     font-size: 17px;
     font-weight: bold;
     background-color: #cc6600;
     border-radius: 4px;
+}
+
+.points {
+    color: #cc6600;
+    margin-top: 6px;
+    margin-left: 15px;
+    font-size: 20px;
+    font-weight: bold;
+}
+.forms {
+    width: 40%;
+    margin: auto;
+}
+
+span {
+    display: block;
+    overflow: hidden;
+    padding: 0px 4px 0px 6px;
+}
+
+.fa-times {
+    color: #cc6600;
 }
 

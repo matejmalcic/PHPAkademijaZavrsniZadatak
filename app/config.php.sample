@@ -7,5 +7,7 @@ return [
         'user' => '',
         'password' => '',
     ],
+    'points' => ,
+    'url' => '',
     'AppName' => '',
 ];

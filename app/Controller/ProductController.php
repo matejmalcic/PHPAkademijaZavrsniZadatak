@@ -17,12 +17,11 @@ class ProductController extends MainController
         $this->cart = Cart::getOne('sessionId', session_id());
     }
 
-    public function menuAction($message = null)
+    public function menuAction()
     {
         $data = Product::getAll();
         return $this->view->render($this->viewDir . 'index',[
-            'data' => $data,
-            'message' => $message
+            'data' => $data
         ]);
     }
 

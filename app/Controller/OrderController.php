@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Model\Order;
 use App\Model\Product;
 use App\Model\ProductCart;
+use App\Model\Status;
 use App\Model\User;
 
 class OrderController extends MainController
@@ -49,7 +50,8 @@ class OrderController extends MainController
         Order::insert([
             'user' => $_SESSION['user']->id,
             'cart' => $_GET['cartId'],
-            'price' => $_GET['price']
+            'price' => $_GET['price'],
+            'time' => date( 'H:i:s')
         ]);
         session_regenerate_id();
         User::setSessionId($_SESSION['user']->id);

@@ -17,7 +17,7 @@ class ProductCart extends AbstractModel
         ";
 
         $con = DB::getInstance()->prepare($sql);
-        $con->execute([ 'cartId' => $cart->id ]);
+        $con->execute(['cartId' => $cart->id]);
 
         $models = [];
         while ($row = $con->fetch()) {
@@ -28,14 +28,26 @@ class ProductCart extends AbstractModel
         //return $con->fetchAll();
     }
 
-    public static function removeProduct($cart, $productId)
+    public static function removeProduct($cartId, $productId)
     {
         $sql = "DELETE FROM product_cart WHERE cartId =:cartId  AND productId =:productId";
 
         $con = DB::getInstance()->prepare($sql);
         $con->execute([
-            'cartId' => $cart->id,
+            'cartId' => $cartId,
             'productId' => $productId
+        ]);
+    }
+
+    public static function test($data)
+    {
+        $sql = "UPDATE product_cart SET amount=:amount WHERE cartId =:cartId  AND productId =:productId";
+
+        $con = DB::getInstance()->prepare($sql);
+        $con->execute([
+            'cartId' => $data['cartId'],
+            'productId' => $data['productId'],
+            'amount' => $data['amount']
         ]);
     }
 }

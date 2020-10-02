@@ -1,4 +1,4 @@
-<form method="POST" action="/admin/submitEditUser?id=<?= $user->id ?>">
+<form class="forms" method="POST" action="/admin/submitEditUser?id=<?= $user->id ?>">
 
     <div class="form-group">
         <label for="first_name"> First Name </label>
@@ -21,6 +21,11 @@
     </div>
 
     <div class="form-group">
+        <label for="points"> Points </label>
+        <input type="number" class="form-control" name="points" value="<?= $user->points ?>">
+    </div>
+
+    <div class="form-group">
         <label for="password"> Password </label>
         <input type="password" class="form-control" name="password">
     </div>
@@ -31,7 +36,7 @@
     </div>
 
     <div>
-        <a href="/admin/userCrud" class="btn btn-danger"> Back </a>
-        <input type="submit" class="btn btn-success" value="Edit">
+        <a href="/admin/userCrud" class="btn"> Back </a>
+        <input type="submit" class="btn" value="Edit">
     </div>
 </form>

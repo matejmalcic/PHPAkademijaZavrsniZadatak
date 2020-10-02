@@ -1,0 +1,14 @@
+<tr>
+    <td><?= $product->name ?></td>
+    <td><?= $product->price ?></td>
+    <td>
+        <a
+                class="btn fas fa-cart-plus fa-2x"
+                data-productId="<?=  $product->id ?>"
+                data-productName="<?=  $product->name ?>"
+                data-toggle="modal" data-target="#myModal">Add
+        </a>
+        <a class="btn"
+           href="/staff/submitAddNewProduct?cartId=<?= $cartId ?>&productId=<?= $product->id ?>">Add</a>
+    </td>
+</tr>
