@@ -2,11 +2,7 @@
 
 namespace App\Controller;
 
-use App\Model\Cart;
 use App\Model\Category;
-use App\Model\Order;
-use App\Model\Product;
-use App\Model\ProductCart;
 use App\Model\Status;
 use App\Model\User;
 

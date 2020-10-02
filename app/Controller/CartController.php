@@ -45,9 +45,22 @@ class CartController extends MainController
             'amount' => $_GET['amount']
         ];
 
-        ProductCart::test($data);
+        ProductCart::amount($data);
+
+        if($_SESSION['user']->status === 'Guest'){
+            return $this->cartAction();
+        }
 
         $render = new OrderController();
         return $render->orderAction();
+    }
+
+    public function deleteCartAction(): void
+    {
+        $cart = Cart::getOne('sessionId', $_SESSION['user']->sessionId);
+
+        if(!$cart->getOrdered()){
+            Cart::delete('sessionId', $_SESSION['user']->sessionId);
+        }
     }
 }

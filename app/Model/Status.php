@@ -11,7 +11,7 @@ class Status extends AbstractModel
     public static function getNextStatus($name)
     {
         $sql ="
-            SELECT name FROM status 
+            SELECT name FROM status
             WHERE id > (SELECT id FROM status WHERE name = :name) 
             ORDER BY id LIMIT 1";
 
@@ -19,6 +19,20 @@ class Status extends AbstractModel
         $con->execute([
             'name' => $name
         ]);
+        return $con->fetch();
+    }
+
+    public static function getPreviousStatus($name)
+    {
+        $sql ="
+            SELECT name FROM status
+            WHERE id < (SELECT id FROM status WHERE name = :name) 
+            ORDER BY id DESC LIMIT 1";
+
+        $con = DB::getInstance()->prepare($sql);
+        $con->execute([ 'name' => $name ]);
+
+
         return $con->fetch();
     }
 }

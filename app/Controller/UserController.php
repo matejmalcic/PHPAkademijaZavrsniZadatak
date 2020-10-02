@@ -126,8 +126,8 @@ class UserController extends MainController
     {
         if ($this->auth->isLoggedIn()) {
             $this->auth->logout();
+
             session_regenerate_id();
-            //delete cart from db
         }
 
         header('Location: /user/login');

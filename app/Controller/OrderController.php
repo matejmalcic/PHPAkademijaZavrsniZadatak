@@ -2,10 +2,10 @@
 
 namespace App\Controller;
 
+use App\Model\Cart;
 use App\Model\Order;
 use App\Model\Product;
 use App\Model\ProductCart;
-use App\Model\Status;
 use App\Model\User;
 
 class OrderController extends MainController
@@ -41,7 +41,7 @@ class OrderController extends MainController
 
     public function cartOrderAction()
     {
-        if ($_GET['price'] == '0.00'){
+        if ($_GET['price'] == '0.00'){ //(flaot)
             //message
             header('Location: /cart/cart');
             return;
@@ -53,8 +53,11 @@ class OrderController extends MainController
             'price' => $_GET['price'],
             'time' => date( 'H:i:s')
         ]);
+
+        Cart::update(['ordered' => 1], 'id', $_GET['cartId']);
+
         session_regenerate_id();
-        User::setSessionId($_SESSION['user']->id);
+        User::update(['sessionId' => session_id()], 'id', $_SESSION['user']->id);
 
         return $this->orderAction();
     }

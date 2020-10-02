@@ -35,6 +35,7 @@ CREATE TABLE cart (
       userId		INT NOT NULL,
       sessionId		VARCHAR(255) NOT NULL UNIQUE,
       price			DECIMAL(10,2) DEFAULT 0.00,
+      ordered		BOOL DEFAULT 0,
       FOREIGN KEY (userId) REFERENCES user(id) ON DELETE CASCADE
 );
 
@@ -63,80 +64,3 @@ CREATE TABLE product_cart (
     FOREIGN KEY (cartId) REFERENCES cart (id) ON DELETE CASCADE,
     FOREIGN KEY (productId) REFERENCES product (id) ON DELETE CASCADE
 );
-
-### TRIGGER'S ###
-# 1. Create cart for Guest after generating sessionId
-CREATE TRIGGER new_user
-    AFTER UPDATE ON user FOR EACH ROW
-    BEGIN
-        IF !(NEW.sessionId <=> OLD.sessionId) AND OLD.status = 'Guest' THEN
-            INSERT INTO cart(sessionId, userId) value (new.sessionId, old.id);
-        END IF;
-    END;
-
-# 2. Calculate new price for cart after adding new product into it (price*amount)
-CREATE TRIGGER calculate_price_on_insert
-    AFTER INSERT
-    ON product_cart
-    FOR EACH ROW
-    UPDATE cart SET  price = price + NEW.amount*(
-        SELECT p.price FROM product p
-        INNER JOIN product_cart pc ON p.id = pc.productId
-        WHERE pc.id = NEW.id
-    )
-    WHERE cart.id = NEW.cartId;
-
-# 3. Calculate new price for cart after removing product from cart (price*amount)
-CREATE TRIGGER calculate_price_on_delete
-    BEFORE DELETE
-    ON product_cart
-    FOR EACH ROW
-    UPDATE cart SET  price = price - OLD.amount*(
-        SELECT p.price FROM product p
-        INNER JOIN product_cart pc ON p.id = pc.productId
-        WHERE pc.id = OLD.id
-    )
-    WHERE cart.id = OLD.cartId;
-
-
-# 4. Calculate new price for cart after changing amount (price*amount)
-CREATE TRIGGER calculate_price_on_amount_update
-    BEFORE UPDATE
-    ON product_cart
-    FOR EACH ROW
-    UPDATE cart SET  price = price + (NEW.amount - OLD.amount)*(
-        SELECT p.price FROM product p
-        INNER JOIN product_cart pc ON p.id = pc.productId
-        WHERE pc.id = OLD.id
-    )
-    WHERE cart.id = OLD.cartId;
-
-# 5. Add points after order
-CREATE TRIGGER points_calculate
-    AFTER INSERT
-    ON orders FOR EACH ROW
-    UPDATE user SET  points = points + (SELECT FLOOR(NEW.price/10))
-    WHERE user.id = NEW.user;
-
-INSERT INTO user (first_name, last_name, email, status, password)
-VALUES
-('Matej', 'Malčić', 'matej.malcic3@gmail.com', 'Admin', '$2y$10$QmBXi5FYaLNsgrbiDxTq/ORCPsPPomWdsUUOhcvqUInfP/vC4fmta'),
-('Stefan', 'Staffer', 'sefan@staff.com', 'Staff', '$2y$10$QmBXi5FYaLNsgrbiDxTq/ORCPsPPomWdsUUOhcvqUInfP/vC4fmta'),
-('Regular', 'Guest', 'noLogin@user.com', 'Guest', '$2y$10$QmBXi5FYaLNsgrbiDxTq/ORCPsPPomWdsUUOhcvqUInfP/vC4fmta'),
-('Ivo', 'Ivic', 'ivo@example.com', 'Guest', '$2y$10$QmBXi5FYaLNsgrbiDxTq/ORCPsPPomWdsUUOhcvqUInfP/vC4fmta');
-
-INSERT INTO category (name) VALUES
-('Wine'),
-('Beer');
-
-INSERT INTO status (name) VALUES
-('Preparing'),
-('Ready to take'),
-('Finished');
-
-INSERT INTO product (name, description, category, price) VALUES
-('Pinot', 'Description text', 1, 4.00),
-('Merlot', 'Description text', 1, 9.00),
-('Rizling', 'Description text', 1, 7.50);
-
-

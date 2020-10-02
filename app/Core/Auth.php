@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core;
 
+use App\Controller\CartController;
 use App\Model\User;
 
 class Auth
@@ -36,7 +37,7 @@ class Auth
     {
         if ($user->getId()) {
             if ($user->getStatus() === 'Guest') {
-                $user->setSessionId($user->getId());
+                User::update(['sessionId' => session_id()], 'id', $user->getId());
             }
             $_SESSION['user'] = $user;
             $this->currentUser = $user;
@@ -45,6 +46,10 @@ class Auth
 
     public function logout(): void
     {
+        if($_SESSION['user']->status === 'Guest'){
+            $cart = new CartController();
+            $cart->deleteCartAction();
+        }
         unset($_SESSION['user'], $this->currentUser);
     }
 

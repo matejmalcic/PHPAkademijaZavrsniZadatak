@@ -39,7 +39,7 @@ class ProductCart extends AbstractModel
         ]);
     }
 
-    public static function test($data)
+    public static function amount($data)
     {
         $sql = "UPDATE product_cart SET amount=:amount WHERE cartId =:cartId  AND productId =:productId";
 

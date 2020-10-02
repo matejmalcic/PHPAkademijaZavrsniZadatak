@@ -1,11 +1,18 @@
 <tr>
     <td title="Image">
-        <img style="width: min-content; height: min-content" src="<?= $row->image ?>" alt="Product image" />
+        <img style="height: 150px; width: 200px;" src="<?= $row->image ?>" alt="Product image" />
     </td>
     <td title="Name"><?= $row->name?></td>
     <td title="Description"><?= $row->description ?></td>
     <td title="Price"><?= (float)$row->price * (integer)$row->amount ?> €</td>
-    <td title="Amount"><?= $row->amount ?></td>
+    <td title="Amount">
+        <a class="btn changeAmountModal"
+           data-toggle="modal"
+           data-target="#changeAmount"
+           data-productId="<?= $row->id ?>"
+           data-cartId=<?= $cart->id ?>> <?= $row->amount ?>
+        </a>
+    </td>
     <td title="Action">
         <a href="/cart/removeProductFromCart?productId=<?= $row->id ?>&cartId=<?= $cart->id ?>">
             <i class="fas fa-times fa-2x"></i>

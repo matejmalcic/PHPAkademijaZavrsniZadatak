@@ -7,8 +7,6 @@ use App\Model\Order;
 use App\Model\Product;
 use App\Model\ProductCart;
 use App\Model\Status;
-use App\Model\User;
-
 
 class StaffController extends MainController
 {
@@ -54,8 +52,13 @@ class StaffController extends MainController
 
     public function changeStatusAction()
     {
-        $status = Status::getNextStatus($_GET['statusName']);
-        Order::update( ['status' => $status['name']], 'id', $_GET['orderId']);
+        $method = 'get' . $_GET['direction'] . 'Status';
+
+        $status = Status::$method($_GET['statusName']);
+
+        if($status){
+            Order::update( ['status' => $status['name']], 'id', $_GET['orderId']);
+        }
 
         $render = new OrderController();
         return $render->orderAction();
@@ -63,7 +66,7 @@ class StaffController extends MainController
 
     public function deleteOrderAction()
     {
-        Order::delete('id', $_GET['id']);
+        Cart::delete('id', $_GET['cartId']);
 
         $render = new OrderController();
         return $render->orderAction();
