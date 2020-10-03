@@ -4,24 +4,24 @@
     <td><?= $orderRow->price ?> €</td>
     <td>
         <a class="btn <?php if($currentUser->status === 'Guest') echo 'disabled'?>"
-           href="/staff/changeStatus?orderId=<?= $orderRow->id ?>
+           href="<?=URL?>staff/changeStatus?orderId=<?= $orderRow->id ?>
            &statusName=<?= $orderRow->status ?>
            &direction=Previous"> < </a>
 
         <button class="btn"> <?= $orderRow->status ?> </button>
 
         <a class="btn <?php if($currentUser->status === 'Guest') echo 'disabled'?>"
-           href="/staff/changeStatus?orderId=<?= $orderRow->id ?>
+           href="<?=URL?>staff/changeStatus?orderId=<?= $orderRow->id ?>
            &statusName=<?= $orderRow->status ?>
            &direction=Next"> > </a>
     </td>
     <td>
         <!-- Edit Order-->
         <a class="btn <?php if($currentUser->status === 'Guest') echo 'disabled'?>"
-           href="/staff/editOrder?id=<?= $orderRow->cart ?>">Edit</a>
+           href="<?=URL?>staff/editOrder?id=<?= $orderRow->cart ?>">Edit</a>
         <!-- Delete Order-->
         <a class="btn <?php if($currentUser->status === 'Guest') echo 'disabled'?>"
-           href="/staff/deleteOrder?cartId=<?= $orderRow->cart ?>">Done</a>
+           href="<?=URL?>staff/deleteOrder?cartId=<?= $orderRow->cart ?>">Done</a>
     </td>
 </tr>
 <?php

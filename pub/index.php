@@ -1,6 +1,7 @@
 <?php
 
 define('BP', dirname(__DIR__));
+define('URL', 'http://phpacademy.inchoo.io/~polaznik20/');
 
 spl_autoload_register(function ($class) {
     $class = lcfirst($class);

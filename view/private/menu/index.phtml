@@ -1,5 +1,5 @@
 <?php if ($currentUser && $currentUser->status === 'Admin'): ?>
-    <a href="/product/addNewProduct" class="btn">Add new product</a>
+    <a href="<?=URL?>product/addNewProduct" class="btn">Add new product</a>
 <?php endif; ?>
 <?php foreach ($categories as $cat ): ?>
 

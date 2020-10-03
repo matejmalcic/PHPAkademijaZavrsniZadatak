@@ -10,6 +10,8 @@ use App\Model\User;
 class AdminController extends MainController
 {
     private $viewDirUser = 'crud' . DIRECTORY_SEPARATOR . 'user' . DIRECTORY_SEPARATOR;
+    private $viewDirStatus = 'crud' . DIRECTORY_SEPARATOR . 'status' . DIRECTORY_SEPARATOR;
+    private $viewDirCategory = 'crud' . DIRECTORY_SEPARATOR . 'category' . DIRECTORY_SEPARATOR;
 
     public function __construct()
     {
@@ -49,7 +51,7 @@ class AdminController extends MainController
         if ($_POST['password'] != '') {
             if ($_POST['password'] !== $_POST['confirm_password']) {
                 //imap_alerts();
-                header('Location: /admin/editUser?id=' . $_GET['id']);
+                header('Location: /~polaznik20/admin/editUser?id=' . $_GET['id']);
             }
             $_POST['password'] = password_hash($_POST['password'], PASSWORD_DEFAULT);
         } else {
@@ -83,7 +85,7 @@ class AdminController extends MainController
     public function statusAction()
     {
         $data = Status::getAll('id');
-        return $this->view->render('crud/status/list', [
+        return $this->view->render($this->viewDirStatus . 'list', [
             'status' => $data
         ]);
     }
@@ -92,7 +94,7 @@ class AdminController extends MainController
     {
         if (!$this->isPost()) {
             // only POST requests are allowed
-            header('Location: /admin/status');
+            header('Location: /~polaznik20/admin/status');
             return;
         }
 
@@ -107,13 +109,13 @@ class AdminController extends MainController
     {
         if (!$this->isPost()) {
             // only POST requests are allowed
-            header('Location: /admin/status');
+            header('Location: /~polaznik20/admin/status');
             return;
         }
 
         if ($_POST['name'] === '') {
             //You didnt entry status name
-            header('Location: /admin/status');
+            header('Location: /~polaznik20/admin/status');
             return;
         }
 
@@ -133,7 +135,7 @@ class AdminController extends MainController
     {
         $data = Category::getAll('id');
 
-        return $this->view->render('crud/category/list', [
+        return $this->view->render($this->viewDirCategory .'list', [
             'categories' => $data
         ]);
     }
@@ -142,7 +144,7 @@ class AdminController extends MainController
     {
         if (!$this->isPost()) {
             // only POST requests are allowed
-            header('Location: /admin/category');
+            header('Location: /~polaznik20/admin/category');
             return;
         }
 
@@ -157,13 +159,13 @@ class AdminController extends MainController
     {
         if (!$this->isPost()) {
             // only POST requests are allowed
-            header('Location: /admin/category');
+            header('Location: /~polaznik20/admin/category');
             return;
         }
 
         if ($_POST['name'] === '') {
             //You didnt entry status name
-            header('Location: /admin/category');
+            header('Location: /~polaznik20/admin/category');
             return;
         }
 

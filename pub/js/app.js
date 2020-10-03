@@ -5,7 +5,7 @@ $(document).ready(function() {
         var productName = $(this).attr('data-productName');
 
         $('#question').html('Add ' + productName + ' to cart ?');
-        $('#addLink').attr('href', '/product/putProductInCart?productId=' + productId);
+        $('#addLink').attr('href', '/~polaznik20/product/putProductInCart?productId=' + productId);
         $('#myModal').modal('show');
 
         return false;
@@ -24,7 +24,7 @@ $(document).ready(function() {
         var cartId = $(this).attr('data-cartId');
 
         $('#question').html('Change order');
-        $('#addLink').attr('href', '/cart/changeAmount?productId=' + productId + '&cartId=' + cartId);
+        $('#addLink').attr('href', '/~polaznik20/cart/changeAmount?productId=' + productId + '&cartId=' + cartId);
         $('#myModal').modal('show');
 
         return false;

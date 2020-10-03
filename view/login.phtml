@@ -1,4 +1,4 @@
-<form class="forms" method="post" action="/user/loginSubmit">
+<form class="forms" method="post" action="<?=URL?>user/loginSubmit">
     <div class="form-group">
         <label for="email">Email</label>
         <input type="email" class="form-control" name="email">
@@ -8,5 +8,5 @@
         <input type="password" class="form-control" name="password">
     </div>
     <button type="submit" class="btn">Login</button>
-    <a class="btn" href="/user/withoutLogin">Continue without login</a>
+    <a class="btn" href="<?=URL?>user/withoutLogin">Continue without login</a>
 </form>
