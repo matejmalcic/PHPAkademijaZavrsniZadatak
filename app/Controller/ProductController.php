@@ -52,7 +52,7 @@ class ProductController extends MainController
     {
         if($this->auth->getCurrentUser()->status !== 'Admin'){
             //set error message
-            header('Location: /');
+            header('Location: /~polaznik20');
         }
 
         $errors = [];
@@ -83,7 +83,7 @@ class ProductController extends MainController
     {
         if($this->auth->getCurrentUser()->status !== 'Admin'){
             //set error message
-            header('Location: /');
+            header('Location: /~polaznik20');
         }
 
         $errors = [];
@@ -109,7 +109,7 @@ class ProductController extends MainController
     {
         if($this->auth->getCurrentUser()->status !== 'Admin'){
             //set error message
-            header('Location: /');
+            header('Location: /~polaznik20');
         }
 
         Product::delete('id', $_GET['id']);

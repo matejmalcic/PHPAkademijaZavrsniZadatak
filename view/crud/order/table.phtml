@@ -1,6 +1,6 @@
 <tr>
     <td title="Image">
-        <img style="width: 200px; height: 150px" src="<?= $product->image ?>" alt="Product image" />
+        <img style="width: 200px; height: 150px" src="<?= URL . $product->image ?>" alt="Product image" />
     </td>
     <td title="Name"><?= $product->name?></td>
     <td title="Amount">
@@ -13,7 +13,7 @@
     </td>
 
     <td title="Action">
-        <a href="/cart/removeProductFromCart?productId=<?= $product->id ?>&cartId=<?= $cart->id ?>">
+        <a href="<?= URL ?>cart/removeProductFromCart?productId=<?= $product->id ?>&cartId=<?= $cart->id ?>">
             <i class="fas fa-times fa-2x"></i>
         </a>
     </td>

@@ -41,9 +41,9 @@ class OrderController extends MainController
 
     public function cartOrderAction()
     {
-        if ($_GET['price'] == '0.00'){ //(flaot)
+        if (!(float)$_GET['price']){
             //message
-            header('Location: /cart/cart');
+            header('Location: /~polaznik20/cart/cart');
             return;
         }
 

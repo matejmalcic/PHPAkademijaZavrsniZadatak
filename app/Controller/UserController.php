@@ -12,7 +12,7 @@ class UserController extends MainController
             return $this->view->render('login');
         }
 
-        header('Location: /');
+        header('Location: /~polaznik20');
     }
 
     public function registerAction()
@@ -21,31 +21,31 @@ class UserController extends MainController
             return $this->view->render('register');
         }
 
-        header('Location: /');
+        header('Location: /~polaznik20');
     }
 
     public function registerSubmitAction()
     {
         if (!$this->isPost()) {
             // only POST requests are allowed
-            header('Location: /');
+            header('Location: /~polaznik20');
             return;
         }
 
         $requiredKeys = ['first_name', 'last_name', 'email', 'password', 'confirm_password'];
         if (!$this->validateData($_POST, $requiredKeys)) {
             // set error message
-            header('Location: /user/register');
+            header('Location: /~polaznik20/user/register');
             return;
         }
 
         if ($_POST['password'] !== $_POST['confirm_password']) {
             // set error message
             if($_SESSION['user']->status === 'Admin'){
-                header('Location: /admin/addNewUser');
+                header('Location: /~polaznik20/admin/addNewUser');
                 return;
             }
-            header('Location: /user/register');
+            header('Location: /~polaznik20/user/register');
             return;
         }
 
@@ -54,10 +54,10 @@ class UserController extends MainController
         if ($user->getId()) {
             // user already exists
             if($_SESSION['user']->status === 'Admin'){
-                header('Location: /admin/addNewUser');
+                header('Location: /~polaznik20/admin/addNewUser');
                 return;
             }
-            header('Location: /user/register');
+            header('Location: /~polaznik20/user/register');
             return;
         }
 
@@ -69,10 +69,10 @@ class UserController extends MainController
         ]);
 
         if($_SESSION['user']->status === 'Admin'){
-            header('Location: /admin/userCrud');
+            header('Location: /~polaznik20/admin/userCrud');
             return;
         }
-        header('Location: /user/login');
+        header('Location: /~polaznik20/user/login');
     }
 
     public function withoutLoginAction()
@@ -80,21 +80,21 @@ class UserController extends MainController
         $user = User::getOne('email', 'noLogin@user.com');
 
         $this->auth->login($user);
-        header('Location: /');
+        header('Location: /~polaznik20');
     }
 
     public function loginSubmitAction()
     {
         // only POST requests are allowed
         if (!$this->isPost() || $this->auth->isLoggedIn()) {
-            header('Location: /');
+            header('Location: /~polaznik20');
             return;
         }
 
         $requiredKeys = ['email', 'password'];
         if (!$this->validateData($_POST, $requiredKeys)) {
             // set error message
-            header('Location: /user/login');
+            header('Location: /~polaznik20/user/login');
             return;
         }
 
@@ -102,13 +102,13 @@ class UserController extends MainController
 
         if (!$user->getId() || !password_verify($_POST['password'], $user->getPassword())) {
             // set error message
-            header('Location: /user/login');
+            header('Location: /~polaznik20/user/login');
             return;
         }
 
 
         $this->auth->login($user);
-        header('Location: /');
+        header('Location: /~polaznik20');
     }
 
     protected function validateData(array $data, array $keys): bool
@@ -130,7 +130,7 @@ class UserController extends MainController
             session_regenerate_id();
         }
 
-        header('Location: /user/login');
+        header('Location: /~polaznik20/user/login');
     }
 
 

@@ -1,6 +1,9 @@
+USE restaurant;
 # 1. Create cart for Guest after generating sessionId
 CREATE TRIGGER new_user
-    AFTER UPDATE ON user FOR EACH ROW
+    AFTER UPDATE
+    ON user
+    FOR EACH ROW
 BEGIN
     IF !(NEW.sessionId <=> OLD.sessionId) AND OLD.status = 'Guest' THEN
         INSERT INTO cart(sessionId, userId) value (new.sessionId, old.id);

@@ -1,8 +1,8 @@
-<form class="forms" method="post" action="/admin/submitStatusEdit">
+<form class="forms" method="post" action="<?= URL ?>admin/submitStatusEdit">
     <?php foreach ($status as $stat): ?>
         <div class="form-group">
 
-            <a href="/admin/deleteStatus?id=<?= $stat->id ?>">
+            <a href="<?= URL ?>admin/deleteStatus?id=<?= $stat->id ?>">
                 <i style="float: right" class="fas fa-times fa-2x"></i></a>
             <span>
                 <input type="text" class="form-control"  style="width: 96%"
@@ -13,7 +13,7 @@
     <button type="submit" class="btn">Save Changes</button>
 </form>
 <br>
-<form class="forms" method="post" action="/admin/addNewStatus">
+<form class="forms" method="post" action="<?= URL ?>admin/addNewStatus">
     <input type="text" class="form-control" name="name">
     <button type="submit" class="btn" >Add new</button>
 </form>

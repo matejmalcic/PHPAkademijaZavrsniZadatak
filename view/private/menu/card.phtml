@@ -1,15 +1,15 @@
 <div class="col-sm-3">
     <div class="card">
 
-        <img class="card-img-top" src="<?= $product->image ?>" alt="Product image" />
+        <img class="card-img-top" src="<?= URL . $product->image ?>" alt="Product image" />
 
         <div class="card-body">
             <h5 class="card-title"><?= $product->name ?></h5>
             <p class="card-text"><?= $product->description ?></p>
             <p> <?= $product->price ?> €</p>
             <?php if($currentUser && $currentUser->status === 'Admin'): ?>
-            <a href="/product/editProduct?id=<?= $product->id ?>"><i class="fas fa-edit fa-2x"></i></a>
-            <a href="/product/deleteProduct?id=<?= $product->id ?>"><i class="fas fa-trash-alt fa-2x"></i></a>
+            <a href="<?=URL?>product/editProduct?id=<?= $product->id ?>"><i class="fas fa-edit fa-2x"></i></a>
+            <a href="<?=URL?>product/deleteProduct?id=<?= $product->id ?>"><i class="fas fa-trash-alt fa-2x"></i></a>
             <?php elseif($currentUser && $currentUser->status === 'Guest'): ?>
                 <i
                     class="fas fa-cart-plus fa-2x"

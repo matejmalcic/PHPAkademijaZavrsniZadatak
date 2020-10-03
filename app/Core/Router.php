@@ -8,6 +8,7 @@ class Router implements RouterInterface
 {
     public function match(string $pathInfo)
     {
+        $pathInfo = str_replace('/~polaznik20', '', $pathInfo);
         $pathInfo = trim($pathInfo, '/');
         $parts = $pathInfo ? explode('/', $pathInfo) : [];
 
