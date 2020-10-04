@@ -24,6 +24,53 @@ class UserController extends MainController
         header('Location: /~polaznik20');
     }
 
+    public function changePassAction()
+    {
+        if (!$this->auth->isLoggedIn()) {
+            return $this->view->render('login');
+        }
+
+        return $this->view->render('changePass');
+    }
+
+    public function submitChangePassAction()
+    {
+        if (!$this->isPost()) {
+            // only POST requests are allowed
+            header('Location: /~polaznik20');
+            return;
+        }
+
+        if($_POST['password'] === ''){
+            return $this->view->render('changePass', [
+                'message' => 'You need to enter new password!'
+            ]);
+        }
+
+        if(!password_verify($_POST['old_password'], $_SESSION['user']->password)){
+            return $this->view->render('changePass', [
+                'message' => 'Old password is not correct!'
+            ]);
+        }
+
+        if ($_POST['password'] !== $_POST['confirm_password']) {
+            return $this->view->render('changePass', [
+                'message' => 'Confirm password don\'t match!'
+            ]);
+        }
+
+        unset($_POST['confirm_password'], $_POST['old_password']);
+
+        $_POST['password'] = password_hash($_POST['password'], PASSWORD_DEFAULT);
+
+        User::update($_POST, 'id', $_SESSION['user']->id);
+        $_SESSION['user']->password = $_POST['password'];
+
+        return $this->view->render('changePass', [
+            'message' => 'Password changed successfully!'
+        ]);
+    }
+
     public function registerSubmitAction()
     {
         if (!$this->isPost()) {
@@ -132,9 +179,4 @@ class UserController extends MainController
 
         header('Location: /~polaznik20/user/login');
     }
-
-
-
-
-
 }

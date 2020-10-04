@@ -17,6 +17,6 @@ INSERT INTO status (name) VALUES
 ('Finished');
 
 INSERT INTO product (name, image, description, category, price) VALUES
-('Eggs & Bacon', 'eggsbacon.jpg', '2 eggs with fried bacon', 1, 4.00),
+('Eggs & Bacon', 'eggsbacon.jpg', '2 eggs with bacon', 1, 4.00),
 ('Meatballs', 'meatballs.jpg', 'Saucy meatballs with mushrooms', 2, 9.00),
 ('Chicken Curry', 'chickencurry.jpg', 'Chicken curry rice', 3, 7.50);

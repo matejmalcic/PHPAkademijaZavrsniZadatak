@@ -1,0 +1,22 @@
+<?php if(isset($message)){
+    echo $message;
+}?>
+<form class="forms" method="post" action="<?=URL?>user/submitChangePass">
+
+    <div class="form-group">
+        <label for="old_password">Old Password</label>
+        <input type="password" class="form-control" name="old_password">
+    </div>
+
+    <div class="form-group">
+        <label for="password">New Password</label>
+        <input type="password" class="form-control" name="password">
+    </div>
+
+    <div class="form-group">
+        <label for="confirm_password">Confirm Password</label>
+        <input type="password" class="form-control" name="confirm_password">
+    </div>
+
+    <button type="submit" class="btn">Confirm</button>
+</form>

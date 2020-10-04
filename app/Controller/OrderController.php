@@ -14,6 +14,10 @@ class OrderController extends MainController
 
     public function orderAction()
     {
+        if(!$this->auth->isLoggedIn()){
+            header('Location: /~polaznik20');
+        }
+
         $orderData = Order::getAll('time');
 
         $array=[];

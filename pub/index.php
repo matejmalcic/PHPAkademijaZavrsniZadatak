@@ -1,7 +1,8 @@
 <?php
 
 define('BP', dirname(__DIR__));
-define('URL', 'http://phpacademy.inchoo.io/~polaznik20/');
+//define('URL', 'http://phpacademy.inchoo.io/~polaznik20/');
+define('URL', 'http://restaurant.loc/');
 
 spl_autoload_register(function ($class) {
     $class = lcfirst($class);
