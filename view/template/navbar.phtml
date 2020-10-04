@@ -1,8 +1,13 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+    <button class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link navbar-brand" href="/">Home</a>
+                <a class="nav-link navbar-brand" href="<?=URL?>">Home</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link navbar-brand" href="<?=URL?>home/about">About Us</a>
@@ -10,38 +15,30 @@
             <li class="nav-item">
                 <a class="nav-link navbar-brand" href="<?=URL?>product/menu">Menu</a>
             </li>
-            <?php if ($currentUser && $currentUser->status === 'Admin'): ?>
-                <li class="nav-item">
-                    <a class="nav-link navbar-brand" href="<?=URL?>admin/userCrud">Users</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link navbar-brand" href="<?=URL?>admin/category">Categories</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link navbar-brand" href="<?=URL?>admin/status">Status</a>
-                </li>
-            <?php endif; ?>
+            <?php if($currentUser):?>
             <li class="nav-item">
                 <a class="nav-link navbar-brand" href="<?=URL?>order/order">Orders</a>
             </li>
-            <?php if ($currentUser && $currentUser->status === 'Guest'): ?>
-            <li class="nav-item">
-                <a class="nav-link" href="<?=URL?>cart/cart"><i class="fas fa-shopping-cart fa-2x"></i></a>
-            </li>
+                <?php if ($currentUser->status === 'Admin'): ?>
+                    <li class="nav-item">
+                        <a class="nav-link navbar-brand" href="<?=URL?>admin/userCrud">Users</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link navbar-brand" href="<?=URL?>admin/category">Categories</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link navbar-brand" href="<?=URL?>admin/status">Status</a>
+                    </li>
+                <?php endif; ?>
+
+                <?php if ($currentUser->status === 'Guest'): ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?=URL?>cart/cart"><i class="fas fa-shopping-cart fa-2x"></i></a>
+                </li>
+                <?php endif; ?>
             <?php endif; ?>
         </ul>
         <ul class="navbar-nav">
-            <?php if ($currentUser && $currentUser->status === 'Guest' && $currentUser->email !== 'noLogin@user.com'): ?>
-                <?php if($currentUser->points > \App\Core\Config::get('points')):?>
-                    <li>
-                        <p class="points"> You have discount! </p>
-                    </li>
-                <?php endif; ?>
-                <li class="nav-item">
-                    <p class="points"> Points:  <?= $currentUser->points ?> </p>
-                </li>
-
-            <?php endif; ?>
             <?php if ($currentUser === null): ?>
                 <li class="nav-item">
                     <a class="nav-link navbar-brand" href="<?=URL?>user/login">Login</a>
@@ -49,8 +46,27 @@
                 <li class="nav-item">
                     <a class="nav-link navbar-brand" href="<?=URL?>user/register">Register</a>
                 </li>
+            <?php elseif( $currentUser->email !== 'noLogin@user.com'): ?>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle username" href="#" id="navbarDropdown" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <?= $currentUser->first_name . ' ' . $currentUser->last_name ?>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <?php if($currentUser->status === 'Guest'):?>
+                            <p class="dropdown-item points">Points:  <?= $currentUser->points ?></p>
+                            <?php if($currentUser->points >= \App\Core\Config::get('points')):?>
+                            <p class="dropdown-item">You have discount! </p>
+                            <?php endif; ?>
+                        <?php endif; ?>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="<?=URL?>user/changePass">Change password</a>
+                        <a class="dropdown-item" href="<?=URL?>user/logout">Logout</a>
+                    </div>
+                </li>
             <?php else: ?>
                 <li class="nav-item">
+                    <?= $currentUser->first_name . ' ' . $currentUser->last_name ?>
                     <a class="nav-link navbar-brand" href="<?=URL?>user/logout">Logout</a>
                 </li>
             <?php endif; ?>

@@ -1,5 +1,9 @@
 <div>
-    <a href="<?= URL ?>order/cartOrder?cartId=<?= $cart->id ?>&price=<?= $cart->price ?>" class="btn">Order</a>
+    <a href="<?= URL ?>order/cartOrder?cartId=<?= $cart->id ?>&price=<?= $cart->price ?>" class="btn"
+       <?php if(!(float)$cart->price): ?>
+       onclick="return alert('Your cart is empty!')"
+       <?php endif; ?>
+    >Make Order</a>
     Total price: <?= $cart->price ?> €
 </div>
 

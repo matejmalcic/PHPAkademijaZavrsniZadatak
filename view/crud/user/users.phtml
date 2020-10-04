@@ -17,8 +17,11 @@
             <td title="Email"><?= $user->email ?></td>
             <td title="Status"><?= $user->status ?></td>
             <td>
-                <a href="<?= URL ?>admin/editUser?id=<?= $user->id ?>" style="color: green"><i class="fas fa-user-edit fa-2x"></i></a>
-                <a href="<?= URL ?>admin/deleteUser?id=<?= $user->id ?>" style="color: red"><i class="fas fa-user-times fa-2x"></i></a>
+                <a href="<?= URL ?>admin/editUser?id=<?= $user->id ?>"><i class="fas fa-user-edit fa-2x"></i></a>
+                <a href="<?= URL ?>admin/deleteUser?id=<?= $user->id ?>"
+                   onclick="return confirm('Delete <?= $user->first_name . ' '. $user->last_name ?> ?')">
+                    <i class="fas fa-user-times fa-2x"></i>
+                </a>
             </td>
         </tr>
     <?php endforeach; ?>

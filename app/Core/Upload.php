@@ -24,12 +24,11 @@ class Upload
                 $fullPath = BP . DIRECTORY_SEPARATOR . 'pub' . $path;
 
                 if(file_exists($fullPath . $file_name)) {
-                    $message = "Image with that name already exists";
                     throw new \Exception('Image with that name already exists');
                 }
 
                 move_uploaded_file($file_tmp_name, $fullPath . $file_name);
-                $_POST['image'] = $path . $file_name;
+                $_POST['image'] = $file_name;
             } else {
                 throw new \Exception('Please ensure your chosen file is less than 100KB.');
             }

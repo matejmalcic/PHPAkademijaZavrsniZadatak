@@ -1,4 +1,5 @@
 body {
+    padding-top: 32px;
     background-image: url('https://restaurantindia.s3.ap-south-1.amazonaws.com/s3fs-public/content11850.jpg');
     background-size: cover;
     background-attachment: scroll;
@@ -21,9 +22,15 @@ th, td {
 
 .welcome {
     font-size: 120px;
-    font-family: "Times New Roman", Times, serif;
+    font-family: Georgia, Times, serif;
     text-align: center;
     margin-top: 10px;
+    color: #cc6600;
+}
+
+.username {
+    font-weight: bold;
+    font-size: 19px;
 }
 
 .fas {
@@ -40,11 +47,10 @@ th, td {
 
 .points {
     color: #cc6600;
-    margin-top: 6px;
-    margin-left: 15px;
     font-size: 20px;
     font-weight: bold;
 }
+
 .forms {
     width: 40%;
     margin: auto;

@@ -23,7 +23,7 @@ CREATE TABLE category (
 CREATE TABLE product (
      id 		    INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
      name 		    VARCHAR(255) NOT NULL,
-     image 		    VARCHAR(255) NOT NULL DEFAULT '/images/products/unknownProduct.jpg',
+     image 		    VARCHAR(255) NOT NULL DEFAULT 'unknownProduct.jpg',
      description    TEXT,
      category  	    INT NOT NULL,
      price 	        DECIMAL(10,2) NOT NULL DEFAULT '0.00',

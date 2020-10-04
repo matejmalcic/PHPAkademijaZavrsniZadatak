@@ -34,9 +34,12 @@ class ProductController extends MainController
     }
 
     //next 5 functions are product CRUD for admin
-    public function editProductAction()
+    public function editProductAction($productId = null, string $message = '')
     {
-        $product = Product::getOne('id', $_GET['id']);
+        if($_GET){
+            $productId = $_GET['id'];
+        }
+        $product = Product::getOne('id', $productId);
 
         if(!$product){
             $this->menuAction();
@@ -44,7 +47,8 @@ class ProductController extends MainController
         }
 
         $this->view->render($this->viewDir . 'edit',[
-            'product' => $product
+            'product' => $product,
+            'message' => $message
         ]);
     }
 
@@ -60,14 +64,14 @@ class ProductController extends MainController
             try {
                 Upload::uploadImage();
             } catch(\Exception $e) {
-                $errors = $e->getMessage();
+                $errors[] = $e->getMessage();
             }
         } else {
             $_POST['image'] = Product::getOne('id', $_POST['id'])->image;
         }
 
         if ($errors){
-            return $this->menuAction($e->getMessage());
+            return $this->editProductAction($_POST['id'], $errors[0]);
         }
 
         Product::update($_POST,'id', $_POST['id']);
@@ -94,7 +98,7 @@ class ProductController extends MainController
                 $errors = $e->getMessage();
             }
         } else {
-            $_POST['image'] = '/images/products/unknownProduct.jpg';
+            $_POST['image'] = 'unknownProduct.jpg';
         }
 
         if ($errors){
