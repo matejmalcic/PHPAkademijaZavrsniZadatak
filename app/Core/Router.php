@@ -10,6 +10,7 @@ class Router implements RouterInterface
     {
         $pathInfo = str_replace('/~polaznik20', '', $pathInfo);
         $pathInfo = trim($pathInfo, '/');
+        str_replace('~polaznik20/', '', $pathInfo);
         $parts = $pathInfo ? explode('/', $pathInfo) : [];
 
         if (count($parts) > 2) {
